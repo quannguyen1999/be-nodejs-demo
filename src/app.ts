@@ -11,7 +11,10 @@ const app: Express = express();
 //Config env
 dotenv.config({path: path.resolve(__dirname, `../properties/.env.${process.env.NODE_ENV?.trim()}`)});
 
+//Demo rest
 app.use('/category', categoryRouter);
+
+//Demo graphql
 app.use(
     '/graphql',
     graphqlHTTP({
