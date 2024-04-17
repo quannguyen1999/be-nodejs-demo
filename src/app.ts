@@ -5,6 +5,7 @@ import path from "path";
 import categoryRouter from "./routers/category.router";
 import { graphQLSchema } from "./graphql/schema";
 import {resolvers} from "./graphql/resolvers";
+import { MessageError, ErrorType, HttpMethodType } from "./constants/message.constant";
 
 const app: Express = express();
 
@@ -21,6 +22,12 @@ app.use(
         schema: graphQLSchema,
         rootValue: resolvers,
         graphiql: true,
+        customFormatErrorFn(err) {
+          const messageError: MessageError = MessageError[err.message as keyof typeof MessageError];
+          const errorType = ErrorType[messageError];
+          const httpMethod = HttpMethodType[errorType.statusCode as keyof typeof HttpMethodType];
+          return { message: errorType.message, status: httpMethod, data: "" };
+        }
     })
 )
 

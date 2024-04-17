@@ -15,12 +15,16 @@ export const INPUT = `
 // Define Query 
 export const QUERY = `
     type Query {
-        #    Account
+        # Auth
+
+        # Account
         listAccount(accountRequestDto: AccountRequestDto!): CommonPageInfoAccount
         exportAccount(accountRequestDto: AccountRequestDto!): ByteArray
 
-        #    Category
-        listCategory(categoryRequestDto: CategoryRequestDto!): CommonPageInfoCategory
+        # Category
+        listCategory(categoryRequestDto: CategoryRequestDto!): CategoryResponseDto
+        createCategory(categoryRequestDto: CategoryRequestDto!): CategoryResponseDto!
+
     }
 `;
 

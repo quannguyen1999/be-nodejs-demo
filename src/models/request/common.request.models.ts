@@ -13,6 +13,6 @@ export const INPUT_COMMON_MODEL_REQUEST = `
     listFields: [String]
     listSorted: [Map]
     listStringSorted: String
-    page: Int!
-    size: Int!
+    page: Int
+    size: Int
 `;
