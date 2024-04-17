@@ -26,6 +26,6 @@ app.use(
 
 //Start app
 app.listen(process.env.PORT || 8080, () => {
-  console.log(`[server]: Server is running at http://localhost:${process.env.PORT || 8080}`);
+  console.log(`[server]: Server is running at http://localhost:${process.env.PORT ?? 8080}`);
 });
 

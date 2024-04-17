@@ -4,7 +4,7 @@ const categoryService = require('../repositories/category.repository');
 const router = Router();
 
 router.get('/', async (req, res, next) => {
-    const result = await categoryService.getAll();
+    const result = await categoryService.getAll(req, res);
     res.status(200).json({
         result
     })
