@@ -6,14 +6,24 @@ import categoryRouter from "./routers/category.router";
 import { graphQLSchema } from "./graphql/schema";
 import {resolvers} from "./graphql/resolvers";
 import { MessageError, ErrorType, HttpMethodType, HttpMethod } from "./constants/message.constant";
+import {authen} from "./configs/security.config";
+import bodyParser from "body-parser";
+
+
 
 const app: Express = express();
 
 //Config env
 dotenv.config({path: path.resolve(__dirname, `../properties/.env.${process.env.NODE_ENV?.trim()}`)});
 
-//Demo rest
+app.use(bodyParser.json()); // application/json
 app.use('/category', categoryRouter);
+
+//Add Security
+app.use(authen);
+
+// Middleware to parse JSON bodies
+app.use(express.json());
 
 //Demo graphql
 app.use(
@@ -34,6 +44,19 @@ app.use(
         }
     })
 )
+
+
+
+//Disable Cors
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader(
+    'Access-Control-Allow-Methods',
+    'OPTIONS, GET, POST, PUT, PATCH, DELETE'
+  );
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 
 //Start app
 app.listen(process.env.PORT || 8080, () => {

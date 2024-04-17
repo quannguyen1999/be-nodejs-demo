@@ -2,7 +2,7 @@ export interface LoginResponseDto {
     accessToken?: string,
     refreshToken?: string,
     tokenType?: string,
-    expiresIn?: number
+    expiresIn?: string
 }   
 
 export const TYPE_LOGIN_REQUEST_MODAL = `
@@ -10,6 +10,6 @@ export const TYPE_LOGIN_REQUEST_MODAL = `
         accessToken: String
         refreshToken: String
         tokenType: String
-        expiresIn: Int
+        expiresIn: String
     }
 `;

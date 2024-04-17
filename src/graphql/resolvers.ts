@@ -1,4 +1,4 @@
-import { login } from "../services/auth.service";
+import { requestToken, refreshToken } from "../services/auth.service";
 import { listCategory, createCategory } from "../services/category.service";
 
 export const resolvers = {
@@ -8,7 +8,10 @@ export const resolvers = {
     createCategory: async (req: any, res: any) => {
         return await createCategory(req, res);
     },
-    login: async (req: any, res: any) => {
-        return await login(req, res);
+    requestToken: async (req: any, res: any) => {
+        return await requestToken(req, res);
+    },
+    refreshToken: async (req: any, res: any) => {
+        return await refreshToken(req, res);
     },
 };

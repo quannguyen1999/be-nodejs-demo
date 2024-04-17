@@ -10,7 +10,8 @@ export enum HttpMethod {
 export enum MessageError {
     OBJECT_IS_NULL,
     SERVER_ERROR,
-    CATEGORY_NAME_IS_NULL
+    CATEGORY_NAME_IS_NULL,
+    UNAUTHORIZED
 }
 
 export const ErrorType = {
@@ -25,6 +26,10 @@ export const ErrorType = {
     [MessageError.CATEGORY_NAME_IS_NULL]: {
       message: 'Category name not null.',
       statusCode: HttpMethod.BAD_REQUEST
+    },
+    [MessageError.UNAUTHORIZED]: {
+      message: 'Unauthorization',
+      statusCode: HttpMethod.UNAUTHORIZED
     }
 }
 
@@ -38,7 +43,11 @@ export const HttpMethodType = {
       reasonPhrase: "Intenal Server Error",
     },
     [HttpMethod.BAD_REQUEST]: {
-        value: 400,
-        reasonPhrase: "Bad Request",
+      value: 400,
+      reasonPhrase: "Bad Request",
+    },
+    [HttpMethod.UNAUTHORIZED]: {
+      value: 401,
+      reasonPhrase: "Unauthorized",
     }
 }
