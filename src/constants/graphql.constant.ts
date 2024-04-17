@@ -1,7 +1,9 @@
 import { INPUT_ACCOUNT_REQUEST_MODEL } from "../models/request/account.request.models";
 import { INPUT_CATEGORY_REQUEST_DTO } from "../models/request/category.request.models";
+import { INPUT_LOGIN_REQUEST_MODAL } from "../models/request/login.request.models";
 import { TYPE_ACCOUNT_RESPONSE_DTO } from "../models/response/account.response.models";
 import { TYPE_CATEGORY_RESPONE_DTO } from "../models/response/category.response.models";
+import { TYPE_LOGIN_REQUEST_MODAL } from "../models/response/login.response.modals";
 
 // Define Input
 export const INPUT = `
@@ -10,12 +12,14 @@ export const INPUT = `
         value: String
     }` 
     + INPUT_ACCOUNT_REQUEST_MODEL 
-    + INPUT_CATEGORY_REQUEST_DTO;
+    + INPUT_CATEGORY_REQUEST_DTO
+    + INPUT_LOGIN_REQUEST_MODAL;
 
 // Define Query 
 export const QUERY = `
     type Query {
         # Auth
+        login(loginRequestDto: LoginRequestDto!): LoginResponseDto
 
         # Account
         listAccount(accountRequestDto: AccountRequestDto!): CommonPageInfoAccount
@@ -36,4 +40,6 @@ export const SCALAR = `
 `;
 
 // Define Type
-export const TYPE = TYPE_ACCOUNT_RESPONSE_DTO + TYPE_CATEGORY_RESPONE_DTO;
+export const TYPE = TYPE_ACCOUNT_RESPONSE_DTO 
++ TYPE_CATEGORY_RESPONE_DTO
++ TYPE_LOGIN_REQUEST_MODAL;

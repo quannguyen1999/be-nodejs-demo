@@ -22,7 +22,6 @@ export const createCategory = async (req: any, res: any) => {
     validateCreateCategory(categoryRequestDto);
     // handler later 
     console.log(categoryRequestDto);
-    // 
     return categoryRequestDto;
 }
 
