@@ -3,10 +3,10 @@ import { graphqlHTTP } from "express-graphql";
 import dotenv from "dotenv";
 import path from "path";
 import categoryRouter from "./routers/category.router";
+import productRouter from "./routers/product.router";
 import { graphQLSchema } from "./graphql/schema";
 import {resolvers} from "./graphql/resolvers";
 import { MessageError, ErrorType, HttpMethodType, HttpMethod } from "./constants/message.constant";
-import {authen} from "./configs/security.config";
 import bodyParser from "body-parser";
 
 
@@ -18,9 +18,10 @@ dotenv.config({path: path.resolve(__dirname, `../properties/.env.${process.env.N
 
 app.use(bodyParser.json()); // application/json
 app.use('/category', categoryRouter);
+app.use('/product', productRouter);
 
 //Add Security
-app.use(authen);
+// app.use(authen);
 
 // Middleware to parse JSON bodies
 app.use(express.json());

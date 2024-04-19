@@ -1,5 +1,3 @@
-import { CommonModelRequest } from "./common.request.models";
-
 export interface RefreshTokenDto {
     refreshToken: string
 }   
