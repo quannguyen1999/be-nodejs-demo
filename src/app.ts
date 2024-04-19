@@ -3,7 +3,6 @@ import { graphqlHTTP } from "express-graphql";
 import dotenv from "dotenv";
 import path from "path";
 import categoryRouter from "./routers/category.router";
-import productRouter from "./routers/product.router";
 import { graphQLSchema } from "./graphql/schema";
 import {resolvers} from "./graphql/resolvers";
 import { MessageError, ErrorType, HttpMethodType, HttpMethod } from "./constants/message.constant";
@@ -13,12 +12,13 @@ import bodyParser from "body-parser";
 
 const app: Express = express();
 
+const Shopify = require('shopify-api-node');
+
 //Config env
 dotenv.config({path: path.resolve(__dirname, `../properties/.env.${process.env.NODE_ENV?.trim()}`)});
 
 app.use(bodyParser.json()); // application/json
 app.use('/category', categoryRouter);
-app.use('/product', productRouter);
 
 //Add Security
 // app.use(authen);
