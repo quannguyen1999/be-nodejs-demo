@@ -1,7 +1,8 @@
 import validator from "validator";
 import { MessageError } from "../constants/message.constant";
 import jwt from "jsonwebtoken";
-import { handlerCommonToken } from "../services/auth.service";
+import { ErrorReponseDto } from "../models/response/error.response.models";
+// import { handlerCommonToken } from "../services/auth.service";
 
 export const handlerQuery = async (isCount: boolean, query: string) => {
     return isCount ? `SELECT count(*) as total FROM (` + query + ` )` : query;
@@ -15,11 +16,16 @@ export const getCurrentUserName = (value: string) => {
     return JSON.parse(JSON.stringify(decodedToken)).username;
 }
 
-export const isValueEmpty = (req: string | undefined, message: MessageError) => {
-    if(req == undefined || validator.isEmpty(req)){
-        throwError(message);
+export const isValueEmpty = (field: string, value: string | undefined, message: MessageError, errors: ErrorReponseDto[]) => {
+    if(value == undefined || validator.isEmpty(value)){
+        const error: ErrorReponseDto = {
+            field: field,
+            message: new Error(MessageError[message]).message
+        }
+        errors.push(error);
     }
 }
+
 
 export const throwError = (req: MessageError) => {
     throw new Error(MessageError[req]);

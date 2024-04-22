@@ -1,10 +1,9 @@
-// import { INPUT_ACCOUNT_CREATE } from "../models/request/account.request.models";
 import { INPUT_CATEGORY_REQUEST_DTO } from "../models/request/category.request.models";
-import { INPUT_LOGIN_REQUEST_MODAL } from "../models/request/login.request.models";
-import { INPUT_REFRESH_TOKEN_DTO } from "../models/request/refresh-token.request.models";
-// import { TYPE_ACCOUNT_RESPONSE_DTO } from "../models/response/account.response.models";
+import { INPUT_TOKEN_REQUEST_DTO } from "../models/request/token.request.models";
 import { TYPE_CATEGORY_RESPONE_DTO } from "../models/response/category.response.models";
-import { TYPE_LOGIN_REQUEST_MODAL } from "../models/response/login.response.modals";
+import { TYPE_RESPOSNE_ERROR } from "../models/response/error.response.models";
+import { TYPE_RESPONSE_TOKEN_DTO } from "../models/response/token.response.models";
+
 
 // Define Input
 export const INPUT = `
@@ -12,22 +11,20 @@ export const INPUT = `
         field: String
         value: String
     }` 
-    // + INPUT_ACCOUNT_CREATE 
     + INPUT_CATEGORY_REQUEST_DTO
-    + INPUT_LOGIN_REQUEST_MODAL
-    + INPUT_REFRESH_TOKEN_DTO
-    ;
+    + INPUT_TOKEN_REQUEST_DTO;
 
 // Define Query 
 export const QUERY = `
     type Query {
         # Auth
-        requestToken(loginRequestDto: LoginRequestDto!): LoginResponseDto
-        refreshToken(refreshTokenDto: RefreshTokenDto!): LoginResponseDto
+        createToken(tokenRequestDto: TokenRequestDto!): TokenResponseDto
 
         # Category
         listCategory(categoryRequestDto: CategoryRequestDto!): CategoryResponseDto
         createCategory(categoryRequestDto: CategoryRequestDto!): CategoryResponseDto!
+
+        
     }
 `;
 
@@ -39,5 +36,9 @@ export const SCALAR = `
 `;
 
 // Define Type
-export const TYPE = TYPE_CATEGORY_RESPONE_DTO
-+ TYPE_LOGIN_REQUEST_MODAL;
+export const TYPE = 
+TYPE_CATEGORY_RESPONE_DTO
++ TYPE_RESPOSNE_ERROR
++ TYPE_RESPONSE_TOKEN_DTO
+
+;

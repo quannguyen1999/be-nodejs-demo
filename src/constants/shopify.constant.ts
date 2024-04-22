@@ -32,6 +32,7 @@ export const QUERY_CREATE_ACCESS_TOKEN = `
     customerAccessTokenCreate(input: $input) {
       customerAccessToken {
         accessToken
+        expiresAt
       },
       userErrors {
         field

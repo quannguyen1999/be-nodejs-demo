@@ -5,7 +5,7 @@ export interface LoginRequestDto extends CommonModelRequest {
     password?: string
 }   
 
-export const INPUT_LOGIN_REQUEST_MODAL = `
+export const INPUT_LOGIN_REQUEST_DTO = `
     input LoginRequestDto {
         username: String
         password: String
