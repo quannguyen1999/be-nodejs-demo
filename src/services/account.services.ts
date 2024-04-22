@@ -8,7 +8,7 @@ export const createAccount = async (req: any, res: any) => {
     const data = await SHOPIFY_CLIENT.request(QUERY_CREATE_CUSTOMER, {
         variables: {
             input: {
-                email: accountRequestDto.email! ,
+                email: accountRequestDto.email!,
                 firstName: accountRequestDto.firstName!,
                 lastName: accountRequestDto.lastName!,
                 phone: accountRequestDto.phone!,
@@ -21,7 +21,7 @@ export const createAccount = async (req: any, res: any) => {
 }
 
 export const createToken = async (req: any, res: any) => {
-    const tokenRequestDto: TokenRequestDto = req.body.TokenRequestDto;
+    const tokenRequestDto: TokenRequestDto = req.body.tokenRequestDto;
     const data = await SHOPIFY_CLIENT.request(QUERY_CREATE_ACCESS_TOKEN, {
         variables: {
             input: {

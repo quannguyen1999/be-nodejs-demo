@@ -7,8 +7,8 @@ import { createStorefrontApiClient } from "@shopify/storefront-api-client";
 dotenv.config({path: path.resolve(__dirname, `../../properties/.env.${process.env.NODE_ENV?.trim()}`)});
 
 export const SHOPIFY_CLIENT = createStorefrontApiClient({
-    storeDomain: process.env.SHOPIFY_DOMAIN?.trim()!,
+    storeDomain: process.env.SHOPIFY_STORE_URL?.trim()!,
     apiVersion: process.env.SHOPIFY_API_VERSION?.trim()!,
-    privateAccessToken: process.env.SHOPIFY_PRICE_ACCESS_TOKEN?.trim()!
-  });
+    privateAccessToken: process.env.SHOPIFY_SECRET_KEY?.trim()!
+});
   

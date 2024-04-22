@@ -2,15 +2,13 @@ import { Router } from "express";
 import { getListProduct } from "../repositories/product.repository";
 
 const router = Router();
-import {createStorefrontApiClient} from '@shopify/storefront-api-client';
-import xx from 'node-fetch';
 
-const client = createStorefrontApiClient({
-  storeDomain: '',
-  apiVersion: '2024-04',
-//   publicAccessToken: '',
-  privateAccessToken: ''
-});
+// const client = createStorefrontApiClient({
+//   storeDomain: '',
+//   apiVersion: '2024-04',
+// //   publicAccessToken: '',
+//   privateAccessToken: ''
+// });
 const createAccessToken = `
    mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
     customerAccessTokenCreate(input: $input) {
@@ -43,17 +41,17 @@ const createCustomer = `
 
 
 router.get('/',async  (req, res) => {
-    const data = await client.request(createCustomer, {
-        variables: {
-            input: {
-                email: 'nguyendanganhquan69@gmail.com',
-                password: 'chichkhongem'
-            }
-        },
-      })
-      console.log(data)
-      console.log(data.errors?.graphQLErrors)
-    console.log(data.data?.customerAccessTokenCreate.userErrors) 
+    // const data = await client.request(createCustomer, {
+    //     variables: {
+    //         input: {
+    //             email: 'nguyendanganhquan69@gmail.com',
+    //             password: 'chichkhongem'
+    //         }
+    //     },
+    //   })
+    //   console.log(data)
+    //   console.log(data.errors?.graphQLErrors)
+    // console.log(data.data?.customerAccessTokenCreate.userErrors) 
     
 });
 
