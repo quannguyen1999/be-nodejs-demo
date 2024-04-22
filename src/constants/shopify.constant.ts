@@ -26,3 +26,40 @@ export const QUERY_PRODUCT = `
   }
 `;
 
+// Customer
+export const QUERY_CREATE_ACCESS_TOKEN = `
+  mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
+    customerAccessTokenCreate(input: $input) {
+      customerAccessToken {
+        accessToken
+      },
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
+export const QUERY_CREATE_CUSTOMER = `
+  mutation customerCreate($input: CustomerCreateInput!) {
+    customerCreate(input: $input) {
+      customer {
+        email
+        firstName
+        lastName
+        phone
+        acceptsMarketing
+      } 
+      customer {
+        id
+        email
+        firstName
+        lastName
+        phone
+        createdAt
+      }
+    }
+  }
+`;
+

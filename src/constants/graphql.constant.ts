@@ -1,8 +1,8 @@
-import { INPUT_ACCOUNT_REQUEST_MODEL } from "../models/request/account.request.models";
+// import { INPUT_ACCOUNT_CREATE } from "../models/request/account.request.models";
 import { INPUT_CATEGORY_REQUEST_DTO } from "../models/request/category.request.models";
 import { INPUT_LOGIN_REQUEST_MODAL } from "../models/request/login.request.models";
 import { INPUT_REFRESH_TOKEN_DTO } from "../models/request/refresh-token.request.models";
-import { TYPE_ACCOUNT_RESPONSE_DTO } from "../models/response/account.response.models";
+// import { TYPE_ACCOUNT_RESPONSE_DTO } from "../models/response/account.response.models";
 import { TYPE_CATEGORY_RESPONE_DTO } from "../models/response/category.response.models";
 import { TYPE_LOGIN_REQUEST_MODAL } from "../models/response/login.response.modals";
 
@@ -12,7 +12,7 @@ export const INPUT = `
         field: String
         value: String
     }` 
-    + INPUT_ACCOUNT_REQUEST_MODEL 
+    // + INPUT_ACCOUNT_CREATE 
     + INPUT_CATEGORY_REQUEST_DTO
     + INPUT_LOGIN_REQUEST_MODAL
     + INPUT_REFRESH_TOKEN_DTO
@@ -25,14 +25,9 @@ export const QUERY = `
         requestToken(loginRequestDto: LoginRequestDto!): LoginResponseDto
         refreshToken(refreshTokenDto: RefreshTokenDto!): LoginResponseDto
 
-        # Account
-        listAccount(accountRequestDto: AccountRequestDto!): CommonPageInfoAccount
-        exportAccount(accountRequestDto: AccountRequestDto!): ByteArray
-
         # Category
         listCategory(categoryRequestDto: CategoryRequestDto!): CategoryResponseDto
         createCategory(categoryRequestDto: CategoryRequestDto!): CategoryResponseDto!
-
     }
 `;
 
@@ -44,6 +39,5 @@ export const SCALAR = `
 `;
 
 // Define Type
-export const TYPE = TYPE_ACCOUNT_RESPONSE_DTO 
-+ TYPE_CATEGORY_RESPONE_DTO
+export const TYPE = TYPE_CATEGORY_RESPONE_DTO
 + TYPE_LOGIN_REQUEST_MODAL;

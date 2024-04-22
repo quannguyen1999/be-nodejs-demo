@@ -1,8 +1,8 @@
 import { CommonModelRequest } from "./common.request.models";
 
 export interface LoginRequestDto extends CommonModelRequest {
-    password?: string,
-    username?: string
+    username?: string,
+    password?: string
 }   
 
 export const INPUT_LOGIN_REQUEST_MODAL = `
