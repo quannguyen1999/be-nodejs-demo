@@ -1,10 +1,9 @@
 import {SHOPIFY_ADMIN_CLIENT, SHOPIFY_STORE_FRONT_CLIENT} from "../configs/shopify.config";
-import { QUERY_CREATE_ACCESS_TOKEN, QUERY_CREATE_CUSTOMER, QUERY_DELETE_TOKEN, QUERY_GET_LIST_ACCOUNT, QUERY_GET_LIST_PRODUCT } from "../constants/shopify.constant";
-import CommonPageInfo from "../models/common-info.models";
+import {  QUERY_CREATE_CUSTOMER, QUERY_GET_LIST_ACCOUNT } from "../constants/shopify.constant";
 import { AccountRequestDto } from "../models/request/account.request.models";
 import { AccountResponseDto } from "../models/response/account.response.models";
 import { validateListAccount } from "../validators/account.validator";
-
+import { handlerCommonPageInfo } from "./common.services";
 
 export const createAccount = async (req: any, res: any) => {
     const accountRequestDto: AccountRequestDto = req.accountRequestDto;
@@ -40,16 +39,9 @@ export const listAccount = async (req: any, res: any) => {
             // last: request.last ?? undefined
         }
     });
-
-    const result: CommonPageInfo<AccountResponseDto> = {
-        endCursor: data.data.customers.pageInfo.endCursor,
-        hasNextPage: data.data.customers.pageInfo.hasNextPage,
-        hasPreviousPage: data.data.customers.pageInfo.hasPreviousPage,
-        startCursor: data.data.customers.pageInfo.startCursor,
-        data: data.data.customers.edges.map((edge: { node: any; }) => edge.node)
-    }
-    return result;
+    return handlerCommonPageInfo(data.data.customers);
 }
+
 
 
 
