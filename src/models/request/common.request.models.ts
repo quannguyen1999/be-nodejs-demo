@@ -5,6 +5,11 @@ export interface CommonModelRequest {
     listStringSorted?: string,
     page?: number,
     size?: number
+
+    after?: string,
+    before?: string,
+    first?: number,
+    last?: number 
 }
 
 export const INPUT_COMMON_MODEL_REQUEST = `

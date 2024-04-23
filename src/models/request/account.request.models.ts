@@ -8,11 +8,6 @@ export interface AccountRequestDto extends CommonModelRequest {
     phone?: string,
     password?: string,
     capcha?: string,
-
-    after?: string,
-    before?: string,
-    first?: number,
-    last?: number 
 }   
 
 export const INPUT_ACCOUNT = `

@@ -42,7 +42,12 @@ export const listAccount = async (req: any, res: any) => {
     return handlerCommonPageInfo(data.data.customers);
 }
 
-
+export const checkoutCreate = async (req: any, res: any) => {
+    
+    return {
+        data: ""
+    }
+}
 
 
 

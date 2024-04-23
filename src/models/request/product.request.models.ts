@@ -2,14 +2,27 @@ import { CommonModelRequest } from "./common.request.models";
 
 export interface ProductRequestDto extends CommonModelRequest{
     id?: string,
-    username?: string,
-    birthday?: Date,
-    gender?: boolean,
-    email?: string,
-    avatar?: string,
-    isActive?: string,
-    mfaEnabled?: boolean,
-    mfaRegistered?: boolean,
-    fromBirthday?: string,
-    toBirthday?: string
+    title?: string,
+    handler?: string,
+    createdAt?: string,
+    description?: string
 }   
+
+export const INPUT_PRODUCT = `
+  input ProductRequestDto {
+    id: String,
+    title: String,
+    handler: String,
+    createdAt: String,
+    description: String,
+    after: String,
+    before: String,
+    first: Int,
+    last: Int 
+  }
+`;
+
+export const FIRST = "first";
+export const BEFORE = "before";
+export const AFTER = "after";
+export const LAST = "last";

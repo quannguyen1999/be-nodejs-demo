@@ -10,22 +10,6 @@ export const GRAPHQL_ENDPOINT = `https://` + process.env.SHOPIFY_STORE_URL + `/a
 
 export const SHOPIFY_ACCESS_TOKEN = process.env.SHOPIFY_SECRET_KEY;
 
-// Define Graphql
-export const QUERY_PRODUCT = `
-  {
-    products(first: 5) {
-      edges {
-        node {
-          id
-          title
-          handle
-          description
-        }
-      }
-    }
-  }
-`;
-
 // Customer
 export const QUERY_CREATE_ACCESS_TOKEN = `
   mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
@@ -98,17 +82,38 @@ export const QUERY_GET_LIST_ACCOUNT = `
 `;
 
 export const QUERY_GET_LIST_PRODUCT = `
-query listProduct {
-  products (first: 3) {
-    edges {
-      node {
-        id
-        title
+  query queryProduct(
+      $after: String,
+      $before: String,
+      $first: Int,
+      $last: Int
+    ) {
+      products (
+        after: $after,
+        before: $before,
+        first: $first,
+        last: $last
+      ) {
+        edges {
+          cursor
+          node {
+            id
+            title
+            handle
+            createdAt
+            description
+          }
+        }
+        pageInfo {
+          endCursor
+          hasNextPage
+          hasPreviousPage
+          startCursor
+        }
       }
     }
-  }
-  }
 `;
+
 
 export const QUERY_DELETE_TOKEN = `
   mutation customerAccessTokenDelete($token: String!) {
