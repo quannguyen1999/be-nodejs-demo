@@ -1,4 +1,5 @@
-import { createAccount, createToken } from "../services/account.services";
+import { createAccount } from "../services/account.services";
+import { createToken, deleteToken } from "../services/auth.service";
 import { listCategory, createCategory } from "../services/category.service";
 
 export const resolvers = {
@@ -14,6 +15,9 @@ export const resolvers = {
     },
     createToken: async (req: any, res: any) => {
         return await createToken(req, res);
+    },
+    deleteToken: async (req: any, res: any) => {
+        return await deleteToken(req, res);
     },
     
 };

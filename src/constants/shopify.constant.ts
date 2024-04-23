@@ -64,3 +64,50 @@ export const QUERY_CREATE_CUSTOMER = `
   }
 `;
 
+export const QUERY_GET_LIST_ACCOUNT = `
+  query listAccount(
+    $after: String,
+    $before: Int,
+    $first: Int,
+    $last: Int
+    ) {
+    listAccount(
+      customers: {
+        after: $after,
+        before: $before,
+        first: $first,
+        last: $last
+      }
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          email
+          firstName
+          lastName
+          verifiedEmail
+        }
+      }
+      pageInfo {
+        endCursor
+        hasNextPage
+        hasPreviousPage
+        startCursor
+      }
+    }
+  }
+`;
+
+export const QUERY_DELETE_TOKEN = `
+  mutation customerAccessTokenDelete($token: String!) {
+    customerAccessTokenDelete(token: $token) {
+      deletedAccessToken
+      deletedCustomerAccessTokenId
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;

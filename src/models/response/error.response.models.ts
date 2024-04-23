@@ -5,7 +5,7 @@ export interface ErrorReponseDto {
 
 export const TYPE_RESPOSNE_ERROR = `
     type ErrorReponseDto {
-        field: String!
-        message: String!
+        field: String
+        message: String
     }
 `;

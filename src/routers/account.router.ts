@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { AccountRequestDto } from "../models/request/account.request.models";
-import { createAccount, createToken } from "../services/account.services";
+import { createToken } from "../services/auth.service";
+import { createAccount } from "../services/account.services";
 
 const router = Router();
 

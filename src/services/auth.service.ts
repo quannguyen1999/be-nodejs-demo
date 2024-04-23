@@ -1,45 +1,79 @@
-// import { v4 as uuidv4 } from "uuid";
-// import { RefreshTokenResponseDto } from "../models/response/refresh-token.response.models";
-// import dotenv from "dotenv";
-// import path from "path";
-// import jwt from "jsonwebtoken";
-// import { LoginRequestDto } from "../models/request/login.request.models";
-// import { LoginResponseDto } from "../models/response/login.response.modals";
-// import { RefreshTokenDto } from "../models/request/refresh-token.request.models";
-// import { getCurrentUserName } from "../utils/function.util";
-// import { TokenRequestDto } from "../models/request/token.request.models";
+import {SHOPIFY_CLIENT} from "../configs/shopify.config";
+import { QUERY_CREATE_ACCESS_TOKEN, QUERY_CREATE_CUSTOMER, QUERY_DELETE_TOKEN } from "../constants/shopify.constant";
+import { AccountRequestDto } from "../models/request/account.request.models";
+import { TokenRequestDto } from "../models/request/token.request.models";
+import { TokenResponseDto } from "../models/response/token.response.models";
+import { validateDeleteToken, valivadateAccessToken } from "../validators/account.validator";
+import { handlerResponse } from "./common.services";
 
-// dotenv.config({path: path.resolve(__dirname, `../properties/.env.${process.env.NODE_ENV?.trim()}`)});
+export const createAccount = async (req: any, res: any) => {
+    const accountRequestDto: AccountRequestDto = req.body.accountRequestDto;
+    const data = await SHOPIFY_CLIENT.request(QUERY_CREATE_CUSTOMER, {
+        variables: {
+            input: {
+                email: accountRequestDto.email!,
+                firstName: accountRequestDto.firstName!,
+                lastName: accountRequestDto.lastName!,
+                phone: accountRequestDto.phone!,
+                password: accountRequestDto.password!
+            }
+        },
+      })
+    return data;
+}
 
-// export const requestToken = async (req: any, res: any) => {
-//     let request: TokenRequestDto = req?.tokenRequestDto;
-//     return handlerCommonToken(request);
-// }
+export const createToken = async (req: any, res: any) => {
+    const request: TokenRequestDto = req.tokenRequestDto || {};
+    const response: TokenResponseDto = {};
+    const validateAccessToken = valivadateAccessToken(request);
+    if(validateAccessToken.length > 0){
+        response.error = validateAccessToken;
+        return response;
+    }
 
-// export const refreshToken = async (req: any, res: any) => {
-//     let request: TokenRequestDto = req?.tokenRequestDto;
-//     return handlerCommonToken(getCurrentUserName(request.refreshToken));
-// }
+    const data = await SHOPIFY_CLIENT.request(QUERY_CREATE_ACCESS_TOKEN, {
+        variables: {
+            input: {
+                email: request.email,
+                password: request.password               
+            }
+        },
+    })
+    return handlerResponse(data, data.data.customerAccessTokenCreate.userErrors, response);
+}
 
-// export const handlerCommonToken = async (username: string) => {
-//     const token = jwt.sign({username: username}, process.env.TOKEN_SECRET!, {
-//         expiresIn: process.env.TOKEN_TIME?.toString()
-//     });
-//     const refreshToken = jwt.sign({username: username}, process.env.TOKEN_SECRET!, { 
-//         expiresIn: process.env.REFRESH_TOKEN_TIME?.toString()
-//     });
+export const deleteToken = async (req: any, res: any) => {
+    const request: TokenRequestDto = req.tokenRequestDto || {};
+    const response: TokenResponseDto = {};
+    
+    const validate = validateDeleteToken(request);
+    if(validate.length > 0){
+        response.error = validate;
+        return response;
+    }
 
-//     const LoginResponseDto: LoginResponseDto = {
-//         tokenType: "Bearer",
-//         accessToken: token,
-//         refreshToken: refreshToken,
-//         expiresIn: process.env.TOKEN_TIME!
-//     }
-//     return LoginResponseDto;
-// }
+    const data = await SHOPIFY_CLIENT.request(QUERY_DELETE_TOKEN, {
+        variables: {
+            token: request.token
+        },
+    })
+    return handlerResponse(data, data.data.customerAccessTokenCreate.userErrors, response);
+}
 
+export const activeAccount = async (req: any, res: any) => {
+    const request: TokenRequestDto = req.tokenRequestDto || {};
+    const response: TokenResponseDto = {};
+    
+    const validate = validateDeleteToken(request);
+    if(validate.length > 0){
+        response.error = validate;
+        return response;
+    }
 
-
-// export const verifyExpiration = (RefreshTokenResponseDto: RefreshTokenResponseDto) => {
-//     return RefreshTokenResponseDto.expiryDate < new Date().getTime();
-// }
+    const data = await SHOPIFY_CLIENT.request(QUERY_DELETE_TOKEN, {
+        variables: {
+            token: request.token
+        },
+    })
+    return handlerResponse(data, data.data.customerAccessTokenCreate.userErrors, response);
+}
