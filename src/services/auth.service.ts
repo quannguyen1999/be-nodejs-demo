@@ -1,26 +1,10 @@
-import {SHOPIFY_CLIENT} from "../configs/shopify.config";
+import {SHOPIFY_STORE_FRONT_CLIENT} from "../configs/shopify.config";
 import { QUERY_CREATE_ACCESS_TOKEN, QUERY_CREATE_CUSTOMER, QUERY_DELETE_TOKEN } from "../constants/shopify.constant";
 import { AccountRequestDto } from "../models/request/account.request.models";
 import { TokenRequestDto } from "../models/request/token.request.models";
 import { TokenResponseDto } from "../models/response/token.response.models";
-import { validateDeleteToken, valivadateAccessToken } from "../validators/account.validator";
+import { validateDeleteToken, valivadateAccessToken } from "../validators/auth.validator";
 import { handlerResponse } from "./common.services";
-
-export const createAccount = async (req: any, res: any) => {
-    const accountRequestDto: AccountRequestDto = req.body.accountRequestDto;
-    const data = await SHOPIFY_CLIENT.request(QUERY_CREATE_CUSTOMER, {
-        variables: {
-            input: {
-                email: accountRequestDto.email!,
-                firstName: accountRequestDto.firstName!,
-                lastName: accountRequestDto.lastName!,
-                phone: accountRequestDto.phone!,
-                password: accountRequestDto.password!
-            }
-        },
-      })
-    return data;
-}
 
 export const createToken = async (req: any, res: any) => {
     const request: TokenRequestDto = req.tokenRequestDto || {};
@@ -31,7 +15,7 @@ export const createToken = async (req: any, res: any) => {
         return response;
     }
 
-    const data = await SHOPIFY_CLIENT.request(QUERY_CREATE_ACCESS_TOKEN, {
+    const data = await SHOPIFY_STORE_FRONT_CLIENT.request(QUERY_CREATE_ACCESS_TOKEN, {
         variables: {
             input: {
                 email: request.email,
@@ -52,7 +36,7 @@ export const deleteToken = async (req: any, res: any) => {
         return response;
     }
 
-    const data = await SHOPIFY_CLIENT.request(QUERY_DELETE_TOKEN, {
+    const data = await SHOPIFY_STORE_FRONT_CLIENT.request(QUERY_DELETE_TOKEN, {
         variables: {
             token: request.token
         },
@@ -70,7 +54,7 @@ export const activeAccount = async (req: any, res: any) => {
         return response;
     }
 
-    const data = await SHOPIFY_CLIENT.request(QUERY_DELETE_TOKEN, {
+    const data = await SHOPIFY_STORE_FRONT_CLIENT.request(QUERY_DELETE_TOKEN, {
         variables: {
             token: request.token
         },

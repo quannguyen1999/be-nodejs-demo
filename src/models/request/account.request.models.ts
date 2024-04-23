@@ -7,16 +7,30 @@ export interface AccountRequestDto extends CommonModelRequest {
     lastName?: string,
     phone?: string,
     password?: string,
-    capcha?: string
+    capcha?: string,
+
+    after?: string,
+    before?: string,
+    first?: number,
+    last?: number 
 }   
 
-export const INPUT_ACCOUNT_CREATE = `
+export const INPUT_ACCOUNT = `
   input CustomerCreateInput {
     acceptsMarketing: Boolean
-    email: String!
+    email: String
     firstName: String
     lastName: String
-    password: String!
+    password: String
     phone: String
+    after: String,
+    before: String,
+    first: Int,
+    last: Int 
   }
 `;
+
+export const FIRST = "first";
+export const BEFORE = "before";
+export const AFTER = "after";
+export const LAST = "last";

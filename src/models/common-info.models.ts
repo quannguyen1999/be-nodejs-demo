@@ -1,9 +1,12 @@
+import { ErrorReponseDto } from "./response/error.response.models";
+
 interface CommonPageInfo<T> {
-    page?: number;
-    size?: number;
-    total?: number;
-    data?: T[];
-    __typename?: string;
+    endCursor: string;
+    hasNextPage: string;
+    hasPreviousPage: string;
+    startCursor: string;
+    error?: ErrorReponseDto[];
+    data: T[];
 }
 export default CommonPageInfo;
 

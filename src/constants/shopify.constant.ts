@@ -65,37 +65,48 @@ export const QUERY_CREATE_CUSTOMER = `
 `;
 
 export const QUERY_GET_LIST_ACCOUNT = `
-  query listAccount(
-    $after: String,
-    $before: Int,
-    $first: Int,
-    $last: Int
+  query queryCustomer(
+      $after: String,
+      $before: String,
+      $first: Int,
+      $last: Int
     ) {
-    listAccount(
-      customers: {
+      customers (
         after: $after,
         before: $before,
         first: $first,
         last: $last
-      }
-    ) {
-      edges {
-        cursor
-        node {
-          id
-          email
-          firstName
-          lastName
-          verifiedEmail
+      ) {
+        edges {
+          cursor
+          node {
+            id
+            email
+            firstName
+            lastName
+            verifiedEmail
+          }
+        }
+        pageInfo {
+          endCursor
+          hasNextPage
+          hasPreviousPage
+          startCursor
         }
       }
-      pageInfo {
-        endCursor
-        hasNextPage
-        hasPreviousPage
-        startCursor
+    }
+`;
+
+export const QUERY_GET_LIST_PRODUCT = `
+query listProduct {
+  products (first: 3) {
+    edges {
+      node {
+        id
+        title
       }
     }
+  }
   }
 `;
 

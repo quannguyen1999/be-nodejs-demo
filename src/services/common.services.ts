@@ -2,7 +2,6 @@ import { ErrorReponseDto } from "../models/response/error.response.models";
 import { TokenResponseDto } from "../models/response/token.response.models";
 
 export const handlerResponse = (data: any,userErrors: any, response: any): TokenResponseDto => {
-    console.log(userErrors)
     if (userErrors.length > 0) {
         const errors: ErrorReponseDto[] = [];
         for (const value of userErrors) {

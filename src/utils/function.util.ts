@@ -23,8 +23,22 @@ export const isValueEmpty = (field: string, value: string | undefined, message: 
             message: new Error(MessageError[message]).message
         }
         errors.push(error);
+        return true;
+    }
+    return false;
+}
+
+export const isErrorCorrect = (field: string, result: boolean, message: MessageError, errors: ErrorReponseDto[]) => {
+    if(result){
+        const error: ErrorReponseDto = {
+            field: field,
+            message: new Error(MessageError[message]).message
+        }
+        errors.push(error);
     }
 }
+
+
 
 
 export const throwError = (req: MessageError) => {

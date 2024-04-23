@@ -15,7 +15,8 @@ export enum MessageError {
 
     EMAIL_INVALID,
     PASSWORD_INVALID,
-    TOKEN_INVALID
+    TOKEN_INVALID,
+    FIRST_INVALID
 }
 
 export const ErrorType = {
@@ -47,6 +48,12 @@ export const ErrorType = {
       message: 'Token Invalid',
       statusCode: HttpMethod.BAD_REQUEST
     },
+    [MessageError.FIRST_INVALID]: {
+      message: 'First Invalid',
+      statusCode: HttpMethod.BAD_REQUEST
+    },
+
+    
 }
 
 export const HttpMethodType = {

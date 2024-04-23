@@ -1,37 +1,28 @@
+import { CommonModelResposne } from "./common.response.models"
 
-export interface AccountResponseDto {
+export interface AccountResponseDto extends CommonModelResposne{
     id?: string
-    username?: string
-    birthday?: string
-    gender?: boolean
     email?: string
-    avatar?: string
-    isActive?: string
-    mfaEnabled?: boolean
-    mfaRegistered?: boolean
-    created?: Date
-    updated?: Date
+    firstName?: string
+    lastName?: string
+    verifiedEmail?: boolean
 }   
 
 export const TYPE_ACCOUNT_RESPONSE_DTO = `
     type AccountResponseDto {
         id: String
-        username: String
-        birthday: String
-        gender: Boolean
         email: String
-        avatar: String
-        isActive: String
-        created: Date
-        updated: Date
-        mfaEnabled: Boolean
-        mfaRegistered: Boolean
+        firstName: String 
+        lastName: String
+        verifiedEmail: Boolean
     }
 
     type CommonPageInfoAccount {
-        total: Int!
-        page: Int!
-        size: Int!
+        endCursor: String
+        hasNextPage: String
+        hasPreviousPage: String
+        startCursor: String
+        error: [ErrorReponseDto]
         data: [AccountResponseDto]
     }
 `;
