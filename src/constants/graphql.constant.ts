@@ -29,7 +29,7 @@ export const QUERY = `
         listAccount(customerCreateInput: AccountRequestDto): CommonPageInfoAccount
         createAccount(accountRequestDto: AccountRequestDto): AccountResponseDto
         deleteAccount(accountRequestDto: AccountRequestDto): AccountDeleteResponseDto
-        createAddress(addressRequestDto: AddressRequestDto): AddressResponseDto
+        createAddress(addressRequestDtoToken: AddressRequestDtoToken): AddressResponseDto
 
         # Auth
         createToken(tokenRequestDto: TokenRequestDto!): TokenResponseDto

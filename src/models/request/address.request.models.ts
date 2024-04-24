@@ -25,7 +25,11 @@ export const INPUT_ADDRESS_ACCOUNT = `
     phone: String
     province: String
     zip: String
-    ` + INPUT_COMMON_MODEL_REQUEST + `
+  }
+
+  input AddressRequestDtoToken {
+    addressRequestDto: AddressRequestDto
+    customerAccessToken: String
   }
 `;
 

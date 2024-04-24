@@ -21,6 +21,7 @@ export const INPUT_COMMON_MODEL_REQUEST = `
     customerAccessToken: String
 `;
 
+
 export const CUSTOMER_ACCESS_TOKEN = "customerAccessToken";
 export const FIRST = "first";
 export const BEFORE = "before";

@@ -65,9 +65,9 @@ export const deleteAccount = async (req: any, res: any) => {
 }
 
 export const createAddress = async (req: any, res: any) => {
-    const request: AddressRequestDto = req.addressRequestDto || {};
+    const request: AddressRequestDto = req.addressRequestDtoToken.addressRequestDto || {};
     const response: AccountResponseDto = {};
-    const validate = validateCreateAddress(request);
+    const validate = validateCreateAddress(request, req.addressRequestDtoToken.customerAccessToken);
     if(validate.length > 0){
         response.userErrors = validate;
         return response;
@@ -76,9 +76,12 @@ export const createAddress = async (req: any, res: any) => {
     const data = await SHOPIFY_STORE_FRONT_CLIENT.request(QUERY_CUSTOMER_ADDRESS_CREATE, {
         variables: {
             address: buildInputObject(request),
-            customerAccessToken: request.customerAccessToken
+            customerAccessToken: req.addressRequestDtoToken.customerAccessToken
         },
-      })
-    return handlerCommonDtoInfo(data.data.customerAddressCreate.address, data.data.customerAddressCreate.userErrors);
+    })
+
+    //TODO need fix bug customerUserError return null
+    return  data.data.customerAddressCreate  == undefined ? {} : 
+    handlerCommonDtoInfo(data.data.customerAddressCreate?.customerAddress,  data.data.customerAddressCreate.userErrors);
 }
 

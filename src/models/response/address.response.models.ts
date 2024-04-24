@@ -24,6 +24,8 @@ export const TYPE_ADDRESS_RESPONSE_DTO = `
         lastName: String,
         phone: String,
         province: String,
-        zip: String
+        zip: String,
+        userErrors: [ErrorReponseDto]
+        customerUserErrors: [CustomerUserError]
     }
 `;

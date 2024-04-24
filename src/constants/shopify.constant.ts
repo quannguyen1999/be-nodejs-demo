@@ -167,6 +167,11 @@ mutation customerAddressCreate($address: MailingAddressInput!, $customerAccessTo
       province
       zip
     }
+    customerUserErrors {
+      code
+      field
+      message
+    }
     userErrors {
       field
       message

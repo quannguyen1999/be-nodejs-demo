@@ -1,4 +1,4 @@
-import { ErrorReponseDto } from "../models/response/error.response.models";
+import { CustomerUserError, ErrorReponseDto } from "../models/response/error.response.models";
 import { TokenResponseDto } from "../models/response/token.response.models";
 
 export const handlerErrorResponse = (data: any,userErrors: any, response: any): TokenResponseDto => {
@@ -24,7 +24,8 @@ export const handlerCommonPageInfo = async (data: any) => {
 } 
 
 export const handlerCommonDtoInfo = async (data: any, userErrors: any) => {
-    const mapData: any = data;
+    
+    const mapData: any = data || {};
     if(userErrors != undefined && userErrors.length > 0){
         const mapUserErrors: ErrorReponseDto[] = [];
         for(const value of userErrors){
@@ -34,6 +35,23 @@ export const handlerCommonDtoInfo = async (data: any, userErrors: any) => {
             })
         }
         mapData.userErrors = mapUserErrors;
+    }
+    return mapData;
+} 
+
+export const handlerCustomerErrorDtoInfo = async (data: any, customerUserErrors: any) => {
+    
+    const mapData: any = data || {};
+    if(customerUserErrors != undefined && customerUserErrors.length > 0){
+        const mapUserErrors: CustomerUserError[] = [];
+        for(const value of customerUserErrors){
+            mapUserErrors.push({
+                code: value.code,
+                field: value.field,
+                message: value.message
+            })
+        }
+        mapData.customerUserErrors = mapUserErrors;
     }
     return mapData;
 } 

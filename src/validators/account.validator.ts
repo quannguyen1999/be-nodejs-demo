@@ -28,9 +28,9 @@ export const valdiateDeleteAccount = (req: AccountRequestDto) => {
     return errors;
 };
 
-export const validateCreateAddress = (req: AddressRequestDto) => {
+export const validateCreateAddress = (req: AddressRequestDto, token: string) => {
     const errors: ErrorReponseDto[] = [];
-    isValueEmpty(CUSTOMER_ACCESS_TOKEN, req.customerAccessToken, MessageError.CUSTOMER_ACCESS_TOKEN_INVALID, errors);
+    isValueEmpty(CUSTOMER_ACCESS_TOKEN, token, MessageError.CUSTOMER_ACCESS_TOKEN_INVALID, errors);
     return errors;
 };
 
