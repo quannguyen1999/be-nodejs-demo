@@ -11,7 +11,8 @@ export interface AccountRequestDto extends CommonModelRequest {
 }   
 
 export const INPUT_ACCOUNT = `
-  input CustomerCreateInput {
+  input AccountRequestDto {
+    id: String
     acceptsMarketing: Boolean
     email: String
     firstName: String
@@ -25,6 +26,7 @@ export const INPUT_ACCOUNT = `
   }
 `;
 
+export const ID = "id";
 export const FIRST = "first";
 export const BEFORE = "before";
 export const AFTER = "after";

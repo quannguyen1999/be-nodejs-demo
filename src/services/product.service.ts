@@ -11,7 +11,7 @@ export const listProduct = async (req: any, res: any) => {
     const response: ProductResponseDto = {};
     const validate = validateListProduct(request);
     if(validate.length > 0){
-        response.error = validate;
+        response.userErrors = validate;
         return response;
     }
 

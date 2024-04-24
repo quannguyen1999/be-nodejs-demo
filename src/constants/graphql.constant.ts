@@ -23,7 +23,9 @@ export const INPUT = `
 export const QUERY = `
     type Query {
         # Account 
-        listAccount(customerCreateInput: CustomerCreateInput): CommonPageInfoAccount
+        listAccount(customerCreateInput: AccountRequestDto): CommonPageInfoAccount
+        createAccount(accountRequestDto: AccountRequestDto): CommonPageInfoAccount
+        deleteAccount(accountRequestDto: AccountRequestDto): AccountDeleteResponseDto
 
         # Auth
         createToken(tokenRequestDto: TokenRequestDto!): TokenResponseDto

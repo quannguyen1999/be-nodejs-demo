@@ -11,7 +11,7 @@ export const createToken = async (req: any, res: any) => {
     const response: TokenResponseDto = {};
     const validateAccessToken = valivadateAccessToken(request);
     if(validateAccessToken.length > 0){
-        response.error = validateAccessToken;
+        response.userErrors = validateAccessToken;
         return response;
     }
 
@@ -22,8 +22,8 @@ export const createToken = async (req: any, res: any) => {
                 password: request.password               
             }
         },
-    })
-    return handlerResponse(data, data.data.customerAccessTokenCreate.userErrors, response);
+    });
+    // return data.data.customerAccessToken;
 }
 
 export const deleteToken = async (req: any, res: any) => {
@@ -32,7 +32,7 @@ export const deleteToken = async (req: any, res: any) => {
     
     const validate = validateDeleteToken(request);
     if(validate.length > 0){
-        response.error = validate;
+        response.userErrors = validate;
         return response;
     }
 
@@ -41,7 +41,7 @@ export const deleteToken = async (req: any, res: any) => {
             token: request.token
         },
     })
-    return handlerResponse(data, data.data.customerAccessTokenCreate.userErrors, response);
+    // return handlerResponse(data, data.data.customerAccessTokenCreate.userErrors, response);
 }
 
 export const activeAccount = async (req: any, res: any) => {
@@ -50,7 +50,7 @@ export const activeAccount = async (req: any, res: any) => {
     
     const validate = validateDeleteToken(request);
     if(validate.length > 0){
-        response.error = validate;
+        response.userErrors = validate;
         return response;
     }
 
@@ -59,9 +59,5 @@ export const activeAccount = async (req: any, res: any) => {
             token: request.token
         },
     })
-    return handlerResponse(data, data.data.customerAccessTokenCreate.userErrors, response);
+    // return handlerResponse(data, data.data.customerAccessTokenCreate.userErrors, response);
 }
-function handlerResponse(data: ClientResponse<any>, userErrors: any, response: TokenResponseDto) {
-    throw new Error("Function not implemented.");
-}
-

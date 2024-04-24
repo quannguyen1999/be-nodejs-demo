@@ -48,6 +48,18 @@ export const QUERY_CREATE_CUSTOMER = `
   }
 `;
 
+export const QUERY_DELETE_CUSTOMER = `
+  mutation customerDelete($input: CustomerDeleteInput!) {
+    customerDelete(input: $input) {
+      deletedCustomerId
+      userErrors {
+        field
+        message
+      }
+    }
+  }
+`;
+
 export const QUERY_GET_LIST_ACCOUNT = `
   query queryCustomer(
       $after: String,
@@ -126,4 +138,19 @@ export const QUERY_DELETE_TOKEN = `
       }
     }
   }
+`;
+
+// Cart 
+export const  QUERY_CART_CREATE = `
+mutation cartCreate($input: CartInput) {
+  cartCreate (input: $input) {
+    cart {
+      id
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}
 `;

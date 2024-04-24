@@ -10,13 +10,16 @@ import {resolvers} from "./graphql/resolvers";
 import { MessageError, ErrorType, HttpMethodType, HttpMethod } from "./constants/message.constant";
 import bodyParser from "body-parser";
 
-
-
 const app: Express = express();
+
+// Implement later
+// function logRequest(fun: any, res: any, next:any) {
+//   next(); // Call the next middleware function in the stack
+// }
 
 //Config env
 dotenv.config({path: path.resolve(__dirname, `../properties/.env.${process.env.NODE_ENV?.trim()}`)});
-
+// app.use(logRequest);
 app.use(bodyParser.json()); // application/json
 app.use('/product', productRouter);
 app.use('/account', accounRouter);

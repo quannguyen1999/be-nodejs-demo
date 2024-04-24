@@ -22,7 +22,7 @@ export const TYPE_PRODUCT_RESPONSE_DTO = `
         hasNextPage: String
         hasPreviousPage: String
         startCursor: String
-        error: [ErrorReponseDto]
+        userErrors: [ErrorReponseDto]
         data: [ProductResponseDto]
     }
 `;

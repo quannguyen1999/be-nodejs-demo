@@ -17,12 +17,17 @@ export const TYPE_ACCOUNT_RESPONSE_DTO = `
         verifiedEmail: Boolean
     }
 
+    type AccountDeleteResponseDto {
+        deletedCustomerId: String
+        userErrors: [ErrorReponseDto]
+    }
+
     type CommonPageInfoAccount {
         endCursor: String
         hasNextPage: String
         hasPreviousPage: String
         startCursor: String
-        error: [ErrorReponseDto]
+        userErrors: [ErrorReponseDto]
         data: [AccountResponseDto]
     }
 `;

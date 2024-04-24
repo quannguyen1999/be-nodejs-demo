@@ -1,9 +1,9 @@
 import { ErrorReponseDto } from "./error.response.models";
 
 export interface CommonModelResposne {
-    error?: ErrorReponseDto[]
+    userErrors?: ErrorReponseDto[]
 }
 
 export const TYPE_COMMON_MODEL_RESPONSE = `
-    error: [ErrorReponseDto]!
+    userErrors: [ErrorReponseDto]!
 `;

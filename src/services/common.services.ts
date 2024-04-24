@@ -22,3 +22,15 @@ export const handlerCommonPageInfo = async (data: any) => {
         data: data.edges.map((edge: { node: any; }) => edge.node)
     };
 } 
+
+export const handlerCommonDtoInfo = async (data: any) => {
+    const mapUserErrors: ErrorReponseDto[] = [];
+    for(const value of data.userErrors){
+        mapUserErrors.push({
+            field: value.field[0],
+            message: value.message
+        })
+    }
+    data.userErrors = mapUserErrors;
+    return data;
+} 
