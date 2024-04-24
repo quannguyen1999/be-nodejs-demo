@@ -1,26 +1,30 @@
 import {SHOPIFY_ADMIN_CLIENT, SHOPIFY_STORE_FRONT_CLIENT} from "../configs/shopify.config";
-import {  QUERY_CREATE_CUSTOMER, QUERY_DELETE_CUSTOMER, QUERY_GET_LIST_ACCOUNT } from "../constants/shopify.constant";
+import {  QUERY_CREATE_CUSTOMER, QUERY_CUSTOMER_ADDRESS_CREATE, QUERY_DELETE_CUSTOMER, QUERY_GET_LIST_ACCOUNT } from "../constants/shopify.constant";
 import { AccountRequestDto } from "../models/request/account.request.models";
+import { AddressRequestDto } from "../models/request/address.request.models";
 import { AccountResponseDto } from "../models/response/account.response.models";
+import { AddressResponseDto } from "../models/response/address.response.models";
 import { ErrorReponseDto } from "../models/response/error.response.models";
-import { valdiateDeleteAccount, validateListAccount } from "../validators/account.validator";
+import { valdiateDeleteAccount, validateCreateAccount, validateCreateAddress, validateListAccount } from "../validators/account.validator";
 import { validateDeleteToken } from "../validators/auth.validator";
-import { handlerCommonDtoInfo, handlerCommonPageInfo } from "./common.services";
+import { buildInputObject, handlerCommonDtoInfo, handlerCommonPageInfo } from "./common.services";
 
 export const createAccount = async (req: any, res: any) => {
-    const accountRequestDto: AccountRequestDto = req.accountRequestDto;
+    const request: AccountRequestDto = req.accountRequestDto || {};
+    const response: AccountResponseDto = {};
+    const validate = validateCreateAccount(request);
+    if(validate.length > 0){
+        response.userErrors = validate;
+        return response;
+    }
+
     const data = await SHOPIFY_STORE_FRONT_CLIENT.request(QUERY_CREATE_CUSTOMER, {
         variables: {
-            input: {
-                email: accountRequestDto.email!,
-                firstName: accountRequestDto.firstName!,
-                lastName: accountRequestDto.lastName!,
-                phone: accountRequestDto.phone!,
-                password: accountRequestDto.password!
-            }
+            input: buildInputObject(request)
         },
-      })
-    return data;
+    })
+
+    return handlerCommonDtoInfo(data.data.customerCreate.customer, data.data.customerCreate.userErrors);
 }
 
 export const listAccount = async (req: any, res: any) => {
@@ -57,15 +61,24 @@ export const deleteAccount = async (req: any, res: any) => {
             }
         }
     });
-    return handlerCommonDtoInfo(data.data.customerDelete);
+    return handlerCommonDtoInfo(data.data.customerDelete, data.data.customerDelete.userErrors);
 }
 
-export const checkoutCreate = async (req: any, res: any) => {
-    
-    return {
-        data: ""
+export const createAddress = async (req: any, res: any) => {
+    const request: AddressRequestDto = req.addressRequestDto || {};
+    const response: AccountResponseDto = {};
+    const validate = validateCreateAddress(request);
+    if(validate.length > 0){
+        response.userErrors = validate;
+        return response;
     }
+
+    const data = await SHOPIFY_STORE_FRONT_CLIENT.request(QUERY_CUSTOMER_ADDRESS_CREATE, {
+        variables: {
+            address: buildInputObject(request),
+            customerAccessToken: request.customerAccessToken
+        },
+      })
+    return handlerCommonDtoInfo(data.data.customerAddressCreate.address, data.data.customerAddressCreate.userErrors);
 }
-
-
 

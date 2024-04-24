@@ -1,4 +1,4 @@
-import { CommonModelRequest } from "./common.request.models";
+import { CommonModelRequest, INPUT_COMMON_MODEL_REQUEST } from "./common.request.models";
 
 export interface ProductRequestDto extends CommonModelRequest{
     id?: string,
@@ -15,10 +15,7 @@ export const INPUT_PRODUCT = `
     handler: String,
     createdAt: String,
     description: String,
-    after: String,
-    before: String,
-    first: Int,
-    last: Int 
+    ` + INPUT_COMMON_MODEL_REQUEST + `
   }
 `;
 

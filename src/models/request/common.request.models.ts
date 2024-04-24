@@ -10,14 +10,19 @@ export interface CommonModelRequest {
     before?: string,
     first?: number,
     last?: number 
+    customerAccessToken?: string
 }
 
 export const INPUT_COMMON_MODEL_REQUEST = `
-    createFromDate: String
-    createToDate: String
-    listFields: [String]
-    listSorted: [Map]
-    listStringSorted: String
-    page: Int
-    size: Int
+    after: String,
+    before: String,
+    first: Int,
+    last: Int,
+    customerAccessToken: String
 `;
+
+export const CUSTOMER_ACCESS_TOKEN = "customerAccessToken";
+export const FIRST = "first";
+export const BEFORE = "before";
+export const AFTER = "after";
+export const LAST = "last";

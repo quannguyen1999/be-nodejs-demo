@@ -30,19 +30,16 @@ export const QUERY_CREATE_CUSTOMER = `
   mutation customerCreate($input: CustomerCreateInput!) {
     customerCreate(input: $input) {
       customer {
-        email
-        firstName
-        lastName
-        phone
-        acceptsMarketing
-      } 
-      customer {
         id
         email
         firstName
         lastName
         phone
         createdAt
+      }
+      userErrors {
+        field
+        message
       }
     }
   }
@@ -128,16 +125,16 @@ export const QUERY_GET_LIST_PRODUCT = `
 
 
 export const QUERY_DELETE_TOKEN = `
-  mutation customerAccessTokenDelete($token: String!) {
-    customerAccessTokenDelete(token: $token) {
-      deletedAccessToken
-      deletedCustomerAccessTokenId
-      userErrors {
-        field
-        message
-      }
+mutation customerAccessTokenDelete($customerAccessToken: String!) {
+  customerAccessTokenDelete(customerAccessToken: $customerAccessToken) {
+    deletedAccessToken
+    deletedCustomerAccessTokenId
+    userErrors {
+      field
+      message
     }
   }
+}
 `;
 
 // Cart 
@@ -146,6 +143,29 @@ mutation cartCreate($input: CartInput) {
   cartCreate (input: $input) {
     cart {
       id
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}
+`;
+
+export const  QUERY_CUSTOMER_ADDRESS_CREATE = `
+mutation customerAddressCreate($address: MailingAddressInput!, $customerAccessToken: String!) {
+  customerAddressCreate(address: $address, customerAccessToken: $customerAccessToken) {
+    customerAddress {
+      address1
+      address2
+      city
+      company
+      country
+      firstName
+      lastName
+      phone
+      province
+      zip
     }
     userErrors {
       field

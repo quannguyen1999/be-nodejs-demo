@@ -1,4 +1,4 @@
-import { CommonModelRequest } from "./common.request.models";
+import { CommonModelRequest, INPUT_COMMON_MODEL_REQUEST } from "./common.request.models";
 
 export interface AccountRequestDto extends CommonModelRequest {
     id?: string,
@@ -19,15 +19,15 @@ export const INPUT_ACCOUNT = `
     lastName: String
     password: String
     phone: String
-    after: String,
-    before: String,
-    first: Int,
-    last: Int 
+    ` + INPUT_COMMON_MODEL_REQUEST + `
   }
 `;
 
-export const ID = "id";
-export const FIRST = "first";
-export const BEFORE = "before";
-export const AFTER = "after";
-export const LAST = "last";
+export const ACCOUNT_ID = "id";
+export const ACCOUNT_ACCEPT_MARKETING = "acceptsMarketing";
+export const ACCOUNT_EMAIL = "email";
+export const ACCOUNT_FIRST_NAME = "firstName";
+export const ACCOUNT_LAST_NAME = "lastName";
+export const ACCOUNT_PASSWORD = "password";
+export const ACCOUNT_PHONE = "phone";
+

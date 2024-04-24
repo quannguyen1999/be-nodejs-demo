@@ -17,7 +17,11 @@ export enum MessageError {
     PASSWORD_INVALID,
     TOKEN_INVALID,
     FIRST_INVALID,
-    ID_INVALID
+    ID_INVALID,
+    CUSTOMER_ACCESS_TOKEN_INVALID,
+    FIRST_NAME_INVALID,
+    LAST_NAME_INVALID,
+    PHONE_INVALID
 }
 
 export const ErrorType = {
@@ -57,6 +61,24 @@ export const ErrorType = {
       message: 'Id Invalid',
       statusCode: HttpMethod.BAD_REQUEST
     },
+    [MessageError.CUSTOMER_ACCESS_TOKEN_INVALID]: {
+      message: 'Customer access token invalid',
+      statusCode: HttpMethod.BAD_REQUEST
+    },
+    [MessageError.FIRST_NAME_INVALID]: {
+      message: 'FirstName invalid',
+      statusCode: HttpMethod.BAD_REQUEST
+    },
+    [MessageError.LAST_NAME_INVALID]: {
+      message: 'LastName invalid',
+      statusCode: HttpMethod.BAD_REQUEST
+    },
+    [MessageError.PHONE_INVALID]: {
+      message: 'Phone invalid',
+      statusCode: HttpMethod.BAD_REQUEST
+    },
+
+    
 }
 
 export const HttpMethodType = {

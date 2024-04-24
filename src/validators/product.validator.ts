@@ -1,5 +1,5 @@
 import { MessageError } from "../constants/message.constant";
-import { FIRST } from "../models/request/account.request.models";
+import { FIRST } from "../models/request/common.request.models";
 import { ProductRequestDto } from "../models/request/product.request.models";
 import { ErrorReponseDto } from "../models/response/error.response.models";
 import { isErrorCorrect, isValueEmpty } from "../utils/function.util";

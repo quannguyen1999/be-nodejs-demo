@@ -2,9 +2,7 @@ import express, { Express } from "express";
 import { graphqlHTTP } from "express-graphql";
 import dotenv from "dotenv";
 import path from "path";
-import categoryRouter from "./routers/category.router";
-import productRouter from "./routers/product.router";
-import accounRouter from "./routers/account.router";
+import accounRouter from "./routers/test.router";
 import { graphQLSchema } from "./graphql/schema";
 import {resolvers} from "./graphql/resolvers";
 import { MessageError, ErrorType, HttpMethodType, HttpMethod } from "./constants/message.constant";
@@ -12,17 +10,12 @@ import bodyParser from "body-parser";
 
 const app: Express = express();
 
-// Implement later
-// function logRequest(fun: any, res: any, next:any) {
-//   next(); // Call the next middleware function in the stack
-// }
-
 //Config env
 dotenv.config({path: path.resolve(__dirname, `../properties/.env.${process.env.NODE_ENV?.trim()}`)});
+
 // app.use(logRequest);
-app.use(bodyParser.json()); // application/json
-app.use('/product', productRouter);
-app.use('/account', accounRouter);
+app.use(bodyParser.json()); 
+app.use('/test', accounRouter);
 
 //Add Security
 // app.use(authen);
@@ -30,7 +23,7 @@ app.use('/account', accounRouter);
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-//Demo graphql
+// Graphql
 app.use(
     '/graphql',
     graphqlHTTP({
@@ -38,7 +31,6 @@ app.use(
         rootValue: resolvers,
         graphiql: true,
         customFormatErrorFn(err) {
-          console.log(err.message)
           const messageError: MessageError = MessageError[err.message as keyof typeof MessageError];
           if(messageError == undefined){
             return { message: err.message, status: HttpMethod.SERVER_ERROR, data: "" };
@@ -49,8 +41,6 @@ app.use(
         }
     })
 )
-
-
 
 //Disable Cors
 app.use((req, res, next) => {

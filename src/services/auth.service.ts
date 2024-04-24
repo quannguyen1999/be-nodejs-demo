@@ -5,6 +5,7 @@ import { AccountRequestDto } from "../models/request/account.request.models";
 import { TokenRequestDto } from "../models/request/token.request.models";
 import { TokenResponseDto } from "../models/response/token.response.models";
 import { validateDeleteToken, valivadateAccessToken } from "../validators/auth.validator";
+import { handlerCommonDtoInfo } from "./common.services";
 
 export const createToken = async (req: any, res: any) => {
     const request: TokenRequestDto = req.tokenRequestDto || {};
@@ -23,7 +24,7 @@ export const createToken = async (req: any, res: any) => {
             }
         },
     });
-    // return data.data.customerAccessToken;
+    return handlerCommonDtoInfo(data.data.customerAccessTokenCreate.customerAccessToken, data.data.customerAccessTokenCreate.userErrors);
 }
 
 export const deleteToken = async (req: any, res: any) => {
@@ -38,26 +39,27 @@ export const deleteToken = async (req: any, res: any) => {
 
     const data = await SHOPIFY_STORE_FRONT_CLIENT.request(QUERY_DELETE_TOKEN, {
         variables: {
-            token: request.token
+            customerAccessToken: request.token
         },
     })
-    // return handlerResponse(data, data.data.customerAccessTokenCreate.userErrors, response);
+    return handlerCommonDtoInfo(data.data.customerAccessTokenDelete, data.data.customerAccessTokenDelete.userErrors);
 }
 
 export const activeAccount = async (req: any, res: any) => {
-    const request: TokenRequestDto = req.tokenRequestDto || {};
-    const response: TokenResponseDto = {};
+    // TODO Implement later
+    // const request: TokenRequestDto = req.tokenRequestDto || {};
+    // const response: TokenResponseDto = {};
     
-    const validate = validateDeleteToken(request);
-    if(validate.length > 0){
-        response.userErrors = validate;
-        return response;
-    }
+    // const validate = validateDeleteToken(request);
+    // if(validate.length > 0){
+    //     response.userErrors = validate;
+    //     return response;
+    // }
 
-    const data = await SHOPIFY_STORE_FRONT_CLIENT.request(QUERY_DELETE_TOKEN, {
-        variables: {
-            token: request.token
-        },
-    })
+    // const data = await SHOPIFY_STORE_FRONT_CLIENT.request(QUERY_DELETE_TOKEN, {
+    //     variables: {
+    //         token: request.token
+    //     },
+    // })
     // return handlerResponse(data, data.data.customerAccessTokenCreate.userErrors, response);
 }

@@ -15,6 +15,7 @@ export const TYPE_ACCOUNT_RESPONSE_DTO = `
         firstName: String 
         lastName: String
         verifiedEmail: Boolean
+        userErrors: [ErrorReponseDto]
     }
 
     type AccountDeleteResponseDto {

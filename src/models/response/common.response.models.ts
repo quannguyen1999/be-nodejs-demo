@@ -5,5 +5,5 @@ export interface CommonModelResposne {
 }
 
 export const TYPE_COMMON_MODEL_RESPONSE = `
-    userErrors: [ErrorReponseDto]!
+    userErrors: [ErrorReponseDto]
 `;

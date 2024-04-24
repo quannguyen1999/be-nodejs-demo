@@ -23,14 +23,27 @@ export const handlerCommonPageInfo = async (data: any) => {
     };
 } 
 
-export const handlerCommonDtoInfo = async (data: any) => {
-    const mapUserErrors: ErrorReponseDto[] = [];
-    for(const value of data.userErrors){
-        mapUserErrors.push({
-            field: value.field[0],
-            message: value.message
-        })
+export const handlerCommonDtoInfo = async (data: any, userErrors: any) => {
+    const mapData: any = data;
+    if(userErrors != undefined && userErrors.length > 0){
+        const mapUserErrors: ErrorReponseDto[] = [];
+        for(const value of userErrors){
+            mapUserErrors.push({
+                field: value.field[0],
+                message: value.message
+            })
+        }
+        mapData.userErrors = mapUserErrors;
     }
-    data.userErrors = mapUserErrors;
-    return data;
+    return mapData;
 } 
+
+export const buildInputObject = (dto: any) => {
+    const input:  Record<string, any> = {};
+    for (const key in dto) {
+        if (dto[key] !== null && dto[key] !== undefined) {
+            input[key] = dto[key];
+        }
+    }
+    return input;
+}
