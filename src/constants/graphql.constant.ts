@@ -34,6 +34,7 @@ export const QUERY = `
         # Auth
         createToken(tokenRequestDto: TokenRequestDto!): TokenResponseDto
         deleteToken(tokenRequestDto: TokenRequestDto!): DeleteTokenResponseDto
+        refreshToken(tokenRequestDto: TokenRequestDto!): TokenResponseDto
 
         # Product
         listProduct(productRequestDto: ProductRequestDto!): CommonPageInfoProduct 

@@ -4,6 +4,7 @@ import { ErrorReponseDto } from "../models/response/error.response.models";
 import { ACCOUNT_EMAIL, ACCOUNT_FIRST_NAME, ACCOUNT_ID, ACCOUNT_LAST_NAME, ACCOUNT_PASSWORD, ACCOUNT_PHONE, AccountRequestDto } from "../models/request/account.request.models";
 import { AddressRequestDto } from "../models/request/address.request.models";
 import { CUSTOMER_ACCESS_TOKEN, FIRST } from "../models/request/common.request.models";
+import { validateToken } from "./auth.validator";
 
 export const validateCreateAccount = (req: AccountRequestDto) => {
     const errors: ErrorReponseDto[] = [];
@@ -30,7 +31,7 @@ export const valdiateDeleteAccount = (req: AccountRequestDto) => {
 
 export const validateCreateAddress = (req: AddressRequestDto, token: string) => {
     const errors: ErrorReponseDto[] = [];
-    isValueEmpty(CUSTOMER_ACCESS_TOKEN, token, MessageError.CUSTOMER_ACCESS_TOKEN_INVALID, errors);
+    validateToken(token, errors);
     return errors;
 };
 

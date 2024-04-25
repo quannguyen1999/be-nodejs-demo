@@ -7,6 +7,7 @@ import { graphQLSchema } from "./graphql/schema";
 import {resolvers} from "./graphql/resolvers";
 import { MessageError, ErrorType, HttpMethodType, HttpMethod } from "./constants/message.constant";
 import bodyParser from "body-parser";
+import { decryptPassword, encryptPassword, generateToken } from "./utils/jwt.helper";
 
 const app: Express = express();
 
@@ -55,6 +56,8 @@ app.use((req, res, next) => {
 
 //Start app
 app.listen(process.env.PORT || 8080, () => {
+  // const encryptedPassword =  encryptPassword("2f9e0e12387aba8c9d340daec62d5c6da258dc4faff974a568cd9a1e730c89ec2a7f0fdd9361156bcfd4d226efdf920b");
+  // console.log(decryptPassword(encryptedPassword));
   console.log(`[server]: Server is running at http://localhost:${process.env.PORT ?? 8080}`);
 });
 

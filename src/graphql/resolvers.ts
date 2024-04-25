@@ -1,5 +1,5 @@
 import { createAccount, createAddress, deleteAccount, listAccount } from "../services/account.services";
-import { createToken, deleteToken } from "../services/auth.service";
+import { createToken, deleteToken, refreshToken } from "../services/auth.service";
 import { listProduct } from "../services/product.service";
 export const resolvers = {
     //Account
@@ -21,6 +21,9 @@ export const resolvers = {
     },
     deleteToken: async (req: any, res: any) => {
         return await deleteToken(req, res);
+    },
+    refreshToken: async (req: any, res: any) => {
+        return await refreshToken(req, res);
     },
     //Product
     listProduct: async (req: any, res: any) => {

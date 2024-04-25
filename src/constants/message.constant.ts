@@ -15,13 +15,14 @@ export enum MessageError {
 
     EMAIL_INVALID,
     PASSWORD_INVALID,
-    TOKEN_INVALID,
     FIRST_INVALID,
     ID_INVALID,
     CUSTOMER_ACCESS_TOKEN_INVALID,
     FIRST_NAME_INVALID,
     LAST_NAME_INVALID,
-    PHONE_INVALID
+    PHONE_INVALID,
+    TOKEN_INVALID,
+    REFRESH_TOKEN_INVALID
 }
 
 export const ErrorType = {
@@ -51,6 +52,10 @@ export const ErrorType = {
     },
     [MessageError.TOKEN_INVALID]: {
       message: 'Token Invalid',
+      statusCode: HttpMethod.BAD_REQUEST
+    },
+    [MessageError.REFRESH_TOKEN_INVALID]: {
+      message: 'REFRESH_TOKEN Invalid',
       statusCode: HttpMethod.BAD_REQUEST
     },
     [MessageError.FIRST_INVALID]: {

@@ -26,6 +26,21 @@ export const QUERY_CREATE_ACCESS_TOKEN = `
   }
 `;
 
+export const QUERY_RENEW_ACCESS_TOKEN = `
+mutation customerAccessTokenRenew($customerAccessToken: String!) {
+  customerAccessTokenRenew(customerAccessToken: $customerAccessToken) {
+    customerAccessToken {
+      accessToken
+      expiresAt
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}
+`;
+
 export const QUERY_CREATE_CUSTOMER = `
   mutation customerCreate($input: CustomerCreateInput!) {
     customerCreate(input: $input) {

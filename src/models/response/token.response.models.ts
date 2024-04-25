@@ -2,13 +2,14 @@ import { CommonModelResposne, TYPE_COMMON_MODEL_RESPONSE } from "./common.respon
 
 export interface TokenResponseDto extends CommonModelResposne{
     accessToken?: string,
+    refreshToken?: string,
     expiresAt?: Date
 }  
 
 export const TYPE_RESPONSE_TOKEN_DTO = `
     type TokenResponseDto {
         accessToken: String
-        expiresAt: Date
+        refreshToken: String
         ` + TYPE_COMMON_MODEL_RESPONSE + `
     }
 `;

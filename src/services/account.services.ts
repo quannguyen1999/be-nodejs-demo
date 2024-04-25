@@ -1,3 +1,4 @@
+import { TOKEN_SECRET_JEY } from "../configs/security.config";
 import {SHOPIFY_ADMIN_CLIENT, SHOPIFY_STORE_FRONT_CLIENT} from "../configs/shopify.config";
 import {  QUERY_CREATE_CUSTOMER, QUERY_CUSTOMER_ADDRESS_CREATE, QUERY_DELETE_CUSTOMER, QUERY_GET_LIST_ACCOUNT } from "../constants/shopify.constant";
 import { AccountRequestDto } from "../models/request/account.request.models";
@@ -5,6 +6,7 @@ import { AddressRequestDto } from "../models/request/address.request.models";
 import { AccountResponseDto } from "../models/response/account.response.models";
 import { AddressResponseDto } from "../models/response/address.response.models";
 import { ErrorReponseDto } from "../models/response/error.response.models";
+import { decryptPassword, encryptPassword, getTokenShopifyFromToken, verifyToken } from "../utils/jwt.helper";
 import { valdiateDeleteAccount, validateCreateAccount, validateCreateAddress, validateListAccount } from "../validators/account.validator";
 import { validateDeleteToken } from "../validators/auth.validator";
 import { buildInputObject, handlerCommonDtoInfo, handlerCommonPageInfo } from "./common.services";
@@ -76,12 +78,11 @@ export const createAddress = async (req: any, res: any) => {
     const data = await SHOPIFY_STORE_FRONT_CLIENT.request(QUERY_CUSTOMER_ADDRESS_CREATE, {
         variables: {
             address: buildInputObject(request),
-            customerAccessToken: req.addressRequestDtoToken.customerAccessToken
+            customerAccessToken: getTokenShopifyFromToken(req.addressRequestDtoToken.customerAccessToken)
         },
     })
 
     //TODO need fix bug customerUserError return null
-    return  data.data.customerAddressCreate  == undefined ? {} : 
-    handlerCommonDtoInfo(data.data.customerAddressCreate?.customerAddress,  data.data.customerAddressCreate.userErrors);
+    return  data.data.customerAddressCreate  == undefined ? {} : handlerCommonDtoInfo(data.data.customerAddressCreate?.customerAddress,  data.data.customerAddressCreate.userErrors);
 }
 
