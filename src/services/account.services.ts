@@ -1,14 +1,10 @@
-import { TOKEN_SECRET_JEY } from "../configs/security.config";
 import {SHOPIFY_ADMIN_CLIENT, SHOPIFY_STORE_FRONT_CLIENT} from "../configs/shopify.config";
 import {  QUERY_CREATE_CUSTOMER, QUERY_CUSTOMER_ADDRESS_CREATE, QUERY_DELETE_CUSTOMER, QUERY_GET_LIST_ACCOUNT } from "../constants/shopify.constant";
 import { AccountRequestDto } from "../models/request/account.request.models";
 import { AddressRequestDto } from "../models/request/address.request.models";
 import { AccountResponseDto } from "../models/response/account.response.models";
-import { AddressResponseDto } from "../models/response/address.response.models";
-import { ErrorReponseDto } from "../models/response/error.response.models";
-import { decryptPassword, encryptPassword, getTokenShopifyFromToken, verifyToken } from "../utils/jwt.helper";
+import { getTokenShopifyFromToken } from "../utils/jwt.helper";
 import { valdiateDeleteAccount, validateCreateAccount, validateCreateAddress, validateListAccount } from "../validators/account.validator";
-import { validateDeleteToken } from "../validators/auth.validator";
 import { buildInputObject, handlerCommonDtoInfo, handlerCommonPageInfo } from "./common.services";
 
 export const createAccount = async (req: any, res: any) => {
@@ -24,9 +20,12 @@ export const createAccount = async (req: any, res: any) => {
         variables: {
             input: buildInputObject(request)
         },
+        headers: {
+            'X-Shopify-Access-Token': request.customerAccessToken!
+        } 
     })
 
-    return handlerCommonDtoInfo(data.data.customerCreate.customer, data.data.customerCreate.userErrors);
+    return handlerCommonDtoInfo(data.data.customerCreate?.customer, data.data.customerCreate?.userErrors);
 }
 
 export const listAccount = async (req: any, res: any) => {
@@ -42,9 +41,15 @@ export const listAccount = async (req: any, res: any) => {
         variables: {
             after: request.after ?? null,
             first: request.first ?? 1
-        }
+        },
+        headers: {
+            'X-Shopify-Access-Token': request.customerAccessToken!
+        } 
     });
-    return handlerCommonPageInfo(data.data.customers);
+
+    console.log(request.customerAccessToken)
+    console.log(data.errors?.graphQLErrors)
+    return handlerCommonPageInfo(data.data == undefined ? data : data.data.customers);
 }
 
 export const deleteAccount = async (req: any, res: any) => {
@@ -61,7 +66,10 @@ export const deleteAccount = async (req: any, res: any) => {
             input: {
                 id: request.id,
             }
-        }
+        },
+        headers: {
+            'X-Shopify-Access-Token': request.customerAccessToken!
+        } 
     });
     return handlerCommonDtoInfo(data.data.customerDelete, data.data.customerDelete.userErrors);
 }
@@ -80,9 +88,11 @@ export const createAddress = async (req: any, res: any) => {
             address: buildInputObject(request),
             customerAccessToken: getTokenShopifyFromToken(req.addressRequestDtoToken.customerAccessToken)
         },
+        headers: {
+            'X-Shopify-Access-Token': request.customerAccessToken!
+        } 
     })
 
-    //TODO need fix bug customerUserError return null
     return  data.data.customerAddressCreate  == undefined ? {} : handlerCommonDtoInfo(data.data.customerAddressCreate?.customerAddress,  data.data.customerAddressCreate.userErrors);
 }
 

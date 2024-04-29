@@ -152,6 +152,18 @@ mutation customerAccessTokenDelete($customerAccessToken: String!) {
 }
 `;
 
+
+export const QUERY_ACCESS_TOKEN = `
+query {
+  appInstallation {
+    accessScopes {
+      handle
+      description
+    }
+  }
+}
+`;
+
 // Cart 
 export const  QUERY_CART_CREATE = `
 mutation cartCreate($input: CartInput) {

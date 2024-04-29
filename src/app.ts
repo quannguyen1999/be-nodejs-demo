@@ -2,21 +2,63 @@ import express, { Express } from "express";
 import { graphqlHTTP } from "express-graphql";
 import dotenv from "dotenv";
 import path from "path";
-import accounRouter from "./routers/test.router";
+import testRouter from "./routers/test.router";
 import { graphQLSchema } from "./graphql/schema";
 import {resolvers} from "./graphql/resolvers";
 import { MessageError, ErrorType, HttpMethodType, HttpMethod } from "./constants/message.constant";
 import bodyParser from "body-parser";
-import { decryptPassword, encryptPassword, generateToken } from "./utils/jwt.helper";
+import { SHOPIFY_API_KEY, SHOPIFY_NAME, SHOPIFY_PUBLIC_KEY } from "./configs/security.config";
 
+const request = require("request-promise");
+const nonce = require("nonce");
 const app: Express = express();
+const scopes = "write_products, read_products, write_customers, read_customers, read_customer_events, read_apps, read_privacy_settings, write_privacy_settings, write_customer_merge, read_customer_merge, read_customer_data_erasure, write_customer_data_erasure, write_validations, read_validations";
+const forwardingAddress = "http://127.0.0.1:8080"; // our ngrok url
 
 //Config env
 dotenv.config({path: path.resolve(__dirname, `../properties/.env.${process.env.NODE_ENV?.trim()}`)});
 
 // app.use(logRequest);
 app.use(bodyParser.json()); 
-app.use('/test', accounRouter);
+app.use('/test', testRouter);
+app.get("/shopify", (req: any, res: any) => {
+    const shopState = nonce();
+    const redirectURL = forwardingAddress + "/shopify/callback";
+
+    // install url for app install
+    const installUrl =
+      "https://" + SHOPIFY_NAME + "/admin/oauth/authorize?client_id=" + SHOPIFY_API_KEY +"&scope=" +
+      scopes +
+      "&state=" +
+      shopState +
+      "&redirect_uri=" +
+      redirectURL;
+    res.cookie("state", shopState);
+    res.redirect(installUrl);
+});
+
+app.get("/shopify/callback", (req: any, res: any) => {
+  const {  code } = req.query;
+    const accessTokenRequestUrl =
+      "https://" + SHOPIFY_NAME + "/admin/oauth/access_token";
+    const accessTokenPayload = {
+      client_id: SHOPIFY_API_KEY,
+      client_secret: SHOPIFY_PUBLIC_KEY,
+      code,
+    };
+    request
+      .post(accessTokenRequestUrl, { json: accessTokenPayload })
+
+      .then((accessTokenResponse: any) => {
+        console.log(accessTokenResponse)
+        const accessToken = accessTokenResponse.access_token;
+        console.log(accessToken);
+      })
+
+      .catch((error: any) => {
+        res.status(error.statusCode).send(error.error.error_description);
+      });
+});
 
 //Add Security
 // app.use(authen);
@@ -56,8 +98,6 @@ app.use((req, res, next) => {
 
 //Start app
 app.listen(process.env.PORT || 8080, () => {
-  // const encryptedPassword =  encryptPassword("2f9e0e12387aba8c9d340daec62d5c6da258dc4faff974a568cd9a1e730c89ec2a7f0fdd9361156bcfd4d226efdf920b");
-  // console.log(decryptPassword(encryptedPassword));
   console.log(`[server]: Server is running at http://localhost:${process.env.PORT ?? 8080}`);
 });
 

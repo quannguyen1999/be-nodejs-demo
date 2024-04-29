@@ -1,6 +1,5 @@
-import { ClientResponse } from "@shopify/graphql-client";
-import {SHOPIFY_STORE_FRONT_CLIENT} from "../configs/shopify.config";
-import { QUERY_CREATE_ACCESS_TOKEN, QUERY_CREATE_CUSTOMER, QUERY_DELETE_TOKEN, QUERY_RENEW_ACCESS_TOKEN } from "../constants/shopify.constant";
+import {SHOPIFY_ADMIN_CLIENT, SHOPIFY_STORE_FRONT_CLIENT} from "../configs/shopify.config";
+import { QUERY_ACCESS_TOKEN, QUERY_CREATE_ACCESS_TOKEN, QUERY_CREATE_CUSTOMER, QUERY_DELETE_TOKEN, QUERY_RENEW_ACCESS_TOKEN } from "../constants/shopify.constant";
 import { TokenRequestDto } from "../models/request/token.request.models";
 import { TokenResponseDto } from "../models/response/token.response.models";
 import { validateDeleteToken, validateRefreshToken, valivadateAccessToken } from "../validators/auth.validator";
@@ -51,8 +50,7 @@ export const refreshToken = async (req: any, res: any) => {
             customerAccessToken:  await getTokenShopifyFromToken(request.refreshToken)
         },
     });
-    console.log(await getTokenShopifyFromToken(request.refreshToken))
-    console.log(data.errors?.graphQLErrors)
+
     const dataMap = await handlerCommonDtoInfo(data.data.customerAccessTokenRenew.customerAccessToken, data.data.customerAccessTokenRenew.userErrors);
     if(dataMap?.userErrors != undefined && dataMap.userErrors.length > 0){
         return dataMap;
@@ -63,8 +61,6 @@ export const refreshToken = async (req: any, res: any) => {
         refreshToken: request.refreshToken,
     }
 }
-
-
 
 export const deleteToken = async (req: any, res: any) => {
     const request: TokenRequestDto = req.tokenRequestDto || {};
@@ -84,21 +80,16 @@ export const deleteToken = async (req: any, res: any) => {
     return handlerCommonDtoInfo(data.data.customerAccessTokenDelete, data.data.customerAccessTokenDelete.userErrors);
 }
 
+export const getAccessScope = async(req: any, res:any) => {
+    return await SHOPIFY_ADMIN_CLIENT.request(QUERY_ACCESS_TOKEN,{
+        variables: {},
+        headers: {
+            'X-Shopify-Access-Token': req.query.customerAccessToken!
+        } 
+    });;
+}
+
 export const activeAccount = async (req: any, res: any) => {
     // TODO Implement later
-    // const request: TokenRequestDto = req.tokenRequestDto || {};
-    // const response: TokenResponseDto = {};
-    
-    // const validate = validateDeleteToken(request);
-    // if(validate.length > 0){
-    //     response.userErrors = validate;
-    //     return response;
-    // }
-
-    // const data = await SHOPIFY_STORE_FRONT_CLIENT.request(QUERY_DELETE_TOKEN, {
-    //     variables: {
-    //         token: request.token
-    //     },
-    // })
-    // return handlerResponse(data, data.data.customerAccessTokenCreate.userErrors, response);
 }
+

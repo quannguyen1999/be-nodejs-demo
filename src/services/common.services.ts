@@ -1,3 +1,4 @@
+import { CUSTOMER_ACCESS_TOKEN } from "../models/request/common.request.models";
 import { CustomerUserError, ErrorReponseDto } from "../models/response/error.response.models";
 import { TokenResponseDto } from "../models/response/token.response.models";
 
@@ -14,6 +15,16 @@ export const handlerErrorResponse = (data: any,userErrors: any, response: any): 
 };
 
 export const handlerCommonPageInfo = async (data: any) => {
+    const response: any = {};
+    if(data.errors != null){
+        const mapUserErrors: ErrorReponseDto[] = [];
+        mapUserErrors.push({
+            field: CUSTOMER_ACCESS_TOKEN,
+            message: data.errors.message
+        })
+        response.userErrors = mapUserErrors;
+        return response;
+    }
     return {
         endCursor: data.pageInfo.endCursor,
         hasNextPage: data.pageInfo.hasNextPage,
@@ -24,7 +35,6 @@ export const handlerCommonPageInfo = async (data: any) => {
 } 
 
 export const handlerCommonDtoInfo = async (data: any, userErrors: any) => {
-    
     const mapData: any = data || {};
     if(userErrors != undefined && userErrors.length > 0){
         const mapUserErrors: ErrorReponseDto[] = [];
@@ -59,7 +69,7 @@ export const handlerCustomerErrorDtoInfo = async (data: any, customerUserErrors:
 export const buildInputObject = (dto: any) => {
     const input:  Record<string, any> = {};
     for (const key in dto) {
-        if (dto[key] !== null && dto[key] !== undefined) {
+        if (dto[key] !== null && dto[key] !== undefined && key != CUSTOMER_ACCESS_TOKEN) {
             input[key] = dto[key];
         }
     }

@@ -22,7 +22,10 @@ export const listProduct = async (req: any, res: any) => {
             // TODO Implement later
             // before: request.before,
             // last: request.last ?? undefined
-        }
+        },
+        headers: {
+            'X-Shopify-Access-Token': request.customerAccessToken!
+        } 
     });
-    return handlerCommonPageInfo(data.data.products);
+    return handlerCommonPageInfo(data.data == undefined ? data : data.data.products);
 }
