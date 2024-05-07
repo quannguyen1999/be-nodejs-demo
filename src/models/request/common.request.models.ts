@@ -6,6 +6,7 @@ export interface CommonModelRequest {
     page?: number,
     size?: number
 
+    query?: string,
     after?: string,
     before?: string,
     first?: number,
@@ -18,6 +19,7 @@ export const INPUT_COMMON_MODEL_REQUEST = `
     before: String,
     first: Int,
     last: Int,
+    query: String,
     customerAccessToken: String
 `;
 

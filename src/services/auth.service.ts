@@ -4,8 +4,8 @@ import { TokenRequestDto } from "../models/request/token.request.models";
 import { TokenResponseDto } from "../models/response/token.response.models";
 import { validateDeleteToken, validateRefreshToken, valivadateAccessToken } from "../validators/auth.validator";
 import { handlerCommonDtoInfo } from "./common.services";
-import { encryptPassword, generateToken, getTokenShopifyFromToken } from "../utils/jwt.helper";
-import { REFRESH_SECRET_JEY, REFRESH_TOKEN_LIFE, TOKEN_LIFE, TOKEN_SECRET_JEY } from "../configs/security.config";
+import { encryptPassword, generateToken, getTokenShopifyFromRefreshToken, getTokenShopifyFromToken } from "../utils/jwt.helper";
+import { REFRESH_SECRET_JEY, REFRESH_TOKEN_LIFE, SHOPIFY_SECRET_KEY, SYSTEM_USERNAME, TOKEN_LIFE, TOKEN_SECRET_JEY } from "../configs/security.config";
 
 export const createToken = async (req: any, res: any) => {
     const request: TokenRequestDto = req.tokenRequestDto || {};
@@ -14,6 +14,10 @@ export const createToken = async (req: any, res: any) => {
     if(validateAccessToken.length > 0){
         response.userErrors = validateAccessToken;
         return response;
+    }
+
+    if(request.email == SYSTEM_USERNAME){
+        return handlerToken(SHOPIFY_SECRET_KEY);
     }
 
     const data = await SHOPIFY_STORE_FRONT_CLIENT.request(QUERY_CREATE_ACCESS_TOKEN, {
@@ -30,9 +34,20 @@ export const createToken = async (req: any, res: any) => {
         return dataMap;
     }
 
+    return handlerToken(dataMap.accessToken);
+}
+
+const handlerToken = async (data: string) => {
     return {
-        accessToken: generateToken(encryptPassword(dataMap.accessToken), TOKEN_LIFE, TOKEN_SECRET_JEY),
-        refreshToken: generateToken(encryptPassword(dataMap.accessToken), REFRESH_TOKEN_LIFE, REFRESH_SECRET_JEY),
+        accessToken: generateToken(encryptPassword(data), TOKEN_LIFE, TOKEN_SECRET_JEY),
+        refreshToken: generateToken(encryptPassword(data), REFRESH_TOKEN_LIFE, REFRESH_SECRET_JEY),
+    }
+}
+
+const handlerRefreshToken = async (data: string, refreshToken: string) => {
+    return {
+        accessToken: generateToken(encryptPassword(data), TOKEN_LIFE, TOKEN_SECRET_JEY),
+        refreshToken: refreshToken,
     }
 }
 
@@ -43,6 +58,11 @@ export const refreshToken = async (req: any, res: any) => {
     if(validateAccessToken.length > 0){
         response.userErrors = validateAccessToken;
         return response;
+    }
+
+    const dataInRefreshToken = await getTokenShopifyFromRefreshToken(request.refreshToken);
+    if(dataInRefreshToken == SHOPIFY_SECRET_KEY){
+        return handlerRefreshToken(SHOPIFY_SECRET_KEY, request.refreshToken);
     }
 
     const data = await SHOPIFY_STORE_FRONT_CLIENT.request(QUERY_RENEW_ACCESS_TOKEN, {
@@ -56,10 +76,7 @@ export const refreshToken = async (req: any, res: any) => {
         return dataMap;
     }
 
-    return {
-        accessToken: generateToken(dataMap.accessToken, TOKEN_LIFE, TOKEN_SECRET_JEY),
-        refreshToken: request.refreshToken,
-    }
+    return handlerRefreshToken(dataMap.accessToken, request.refreshToken);
 }
 
 export const deleteToken = async (req: any, res: any) => {

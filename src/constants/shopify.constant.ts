@@ -77,13 +77,15 @@ export const QUERY_GET_LIST_ACCOUNT = `
       $after: String,
       $before: String,
       $first: Int,
-      $last: Int
+      $last: Int,
+      $query: String
     ) {
       customers (
         after: $after,
         before: $before,
         first: $first,
-        last: $last
+        last: $last,
+        query: $query
       ) {
         edges {
           cursor

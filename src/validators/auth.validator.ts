@@ -2,13 +2,16 @@ import { MessageError } from "../constants/message.constant";
 import { isErrorCorrect, isValueEmpty } from "../utils/function.util";
 import { EMAIL, PASSWORD, REFRESH_TOKEN, TOKEN, TokenRequestDto } from "../models/request/token.request.models";
 import { ErrorReponseDto } from "../models/response/error.response.models";
-import { REFRESH_SECRET_JEY, REFRESH_TOKEN_LIFE, TOKEN_SECRET_JEY } from "../configs/security.config";
+import { REFRESH_SECRET_JEY, REFRESH_TOKEN_LIFE, SYSTEM_PASSWORD, SYSTEM_USERNAME, TOKEN_SECRET_JEY } from "../configs/security.config";
 import { verifyToken } from "../utils/jwt.helper";
 
 export const valivadateAccessToken = (req: TokenRequestDto) => {
     const errors: ErrorReponseDto[] = [];
     isValueEmpty(EMAIL, req.email, MessageError.EMAIL_INVALID, errors);
     isValueEmpty(PASSWORD, req.password, MessageError.PASSWORD_INVALID, errors);
+    if(req.email == SYSTEM_USERNAME){
+        isErrorCorrect(EMAIL, req.password == SYSTEM_PASSWORD, MessageError.PASSWORD_INVALID, errors);
+    }
     return errors;
 };
 

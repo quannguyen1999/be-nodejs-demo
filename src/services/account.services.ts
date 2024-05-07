@@ -40,15 +40,13 @@ export const listAccount = async (req: any, res: any) => {
     const data = await SHOPIFY_ADMIN_CLIENT.request(QUERY_GET_LIST_ACCOUNT,{
         variables: {
             after: request.after ?? null,
-            first: request.first ?? 1
+            first: request.first ?? 1,
+            query: request.query
         },
         headers: {
             'X-Shopify-Access-Token': request.customerAccessToken!
         } 
     });
-
-    console.log(request.customerAccessToken)
-    console.log(data.errors?.graphQLErrors)
     return handlerCommonPageInfo(data.data == undefined ? data : data.data.customers);
 }
 
