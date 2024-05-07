@@ -19,10 +19,7 @@ export const createAccount = async (req: any, res: any) => {
     const data = await SHOPIFY_STORE_FRONT_CLIENT.request(QUERY_CREATE_CUSTOMER, {
         variables: {
             input: buildInputObject(request)
-        },
-        headers: {
-            'X-Shopify-Access-Token': request.customerAccessToken!
-        } 
+        }
     })
 
     return handlerCommonDtoInfo(data.data.customerCreate?.customer, data.data.customerCreate?.userErrors);
@@ -44,7 +41,7 @@ export const listAccount = async (req: any, res: any) => {
             query: request.query
         },
         headers: {
-            'X-Shopify-Access-Token': request.customerAccessToken!
+            'X-Shopify-Access-Token': await getTokenShopifyFromToken(request.customerAccessToken!)
         } 
     });
     return handlerCommonPageInfo(data.data == undefined ? data : data.data.customers);
@@ -66,7 +63,7 @@ export const deleteAccount = async (req: any, res: any) => {
             }
         },
         headers: {
-            'X-Shopify-Access-Token': request.customerAccessToken!
+            'X-Shopify-Access-Token': await getTokenShopifyFromToken(request.customerAccessToken!)
         } 
     });
     return handlerCommonDtoInfo(data.data.customerDelete, data.data.customerDelete.userErrors);
@@ -87,7 +84,7 @@ export const createAddress = async (req: any, res: any) => {
             customerAccessToken: getTokenShopifyFromToken(req.addressRequestDtoToken.customerAccessToken)
         },
         headers: {
-            'X-Shopify-Access-Token': request.customerAccessToken!
+            'X-Shopify-Access-Token': await getTokenShopifyFromToken(request.customerAccessToken!)
         } 
     })
 

@@ -20,12 +20,14 @@ export const validateCreateAccount = (req: AccountRequestDto) => {
 export const validateListAccount = (req: AccountRequestDto) => {
     const errors: ErrorReponseDto[] = [];
     validateFirst(req.first!, errors);
+    isValueEmpty(CUSTOMER_ACCESS_TOKEN, req.customerAccessToken, MessageError.CUSTOMER_ACCESS_TOKEN_INVALID, errors);
     return errors;
 };
 
 export const valdiateDeleteAccount = (req: AccountRequestDto) => {
     const errors: ErrorReponseDto[] = [];
     isValueEmpty(ACCOUNT_ID, req.id, MessageError.FIRST_INVALID, errors);
+    isValueEmpty(CUSTOMER_ACCESS_TOKEN, req.customerAccessToken, MessageError.CUSTOMER_ACCESS_TOKEN_INVALID, errors);
     return errors;
 };
 

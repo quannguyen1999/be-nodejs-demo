@@ -10,7 +10,7 @@ export const valivadateAccessToken = (req: TokenRequestDto) => {
     isValueEmpty(EMAIL, req.email, MessageError.EMAIL_INVALID, errors);
     isValueEmpty(PASSWORD, req.password, MessageError.PASSWORD_INVALID, errors);
     if(req.email == SYSTEM_USERNAME){
-        isErrorCorrect(EMAIL, req.password == SYSTEM_PASSWORD, MessageError.PASSWORD_INVALID, errors);
+        isErrorCorrect(EMAIL, req.password != SYSTEM_PASSWORD, MessageError.PASSWORD_INVALID, errors);
     }
     return errors;
 };

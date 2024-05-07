@@ -1,7 +1,9 @@
+import { SHOPIFY_SECRET_KEY } from "../configs/security.config";
 import { SHOPIFY_ADMIN_CLIENT } from "../configs/shopify.config";
 import { QUERY_GET_LIST_PRODUCT } from "../constants/shopify.constant";
 import { ProductRequestDto } from "../models/request/product.request.models";
 import { ProductResponseDto } from "../models/response/product.response.models";
+import { getTokenShopifyFromToken } from "../utils/jwt.helper";
 import { validateListProduct } from "../validators/product.validator";
 import { handlerCommonPageInfo } from "./common.services";
 
@@ -22,10 +24,7 @@ export const listProduct = async (req: any, res: any) => {
             // TODO Implement later
             // before: request.before,
             // last: request.last ?? undefined
-        },
-        headers: {
-            'X-Shopify-Access-Token': request.customerAccessToken!
-        } 
+        }
     });
     return handlerCommonPageInfo(data.data == undefined ? data : data.data.products);
 }
